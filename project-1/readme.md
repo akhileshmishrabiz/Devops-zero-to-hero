@@ -1,3 +1,4 @@
+**Blog post explaining everything**: https://medium.com/@akhilesh-mishra/devops-101-terraform-on-aws-0b8a71d9eea1
 Tools used: AWS and Terraform
 Terraform deployment: Manual
 Terraform state: Local
