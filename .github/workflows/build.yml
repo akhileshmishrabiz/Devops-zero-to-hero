@@ -38,8 +38,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Install openssh
         run: |
-          aws s3 ls
-          aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+          sudo apt-get install -y openssh-client
+          
+
+      - name: SSH into EC2 and execute commands
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_KEY}}
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 400 private_key.pem
+          ssh -i private_key.pem ec2-user@$(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text) 'ls -la'
+
 
