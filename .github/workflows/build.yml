@@ -41,3 +41,5 @@ jobs:
       - name: Run a multi-line script
         run: |
           aws s3 ls
+          aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+
