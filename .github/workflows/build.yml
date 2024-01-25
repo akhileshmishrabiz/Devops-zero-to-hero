@@ -5,8 +5,8 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  # push:
-  #   branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   # pull_request:
   #   branches: [ "main" ]
 
@@ -41,12 +41,18 @@ jobs:
       - name: Install openssh
         run: |
           sudo apt-get install -y openssh-client
-          
+      - name: Run a multi-line script
+        id: get-ip
+        run: |
+          aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+
 
       - name: SSH into EC2 and execute commands
+        env:
+          PUBLIC_IP: ${{ needs.get-public-ip.outputs.public_ip }}
         run: |
           echo "${{ secrets.SSH_KEY }}" > private_key.pem
           chmod 400 private_key.pem
-          ssh -i private_key.pem ec2-user@$(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text) 'ls -la'
+          ssh -i private_key.pem ec2-user@${{ env.PUBLIC_IP  }} 'ls -la'
 
 
