@@ -41,7 +41,8 @@ jobs:
       - name: Install openssh
         run: |
           sudo apt-get install -y openssh-client
-      - name: Run a multi-line script
+
+      - name: get public ip
         id: get-ip
         run: |
           aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
@@ -49,7 +50,7 @@ jobs:
 
       - name: SSH into EC2 and execute commands
         env:
-          PUBLIC_IP: ${{ needs.get-public-ip.outputs.public_ip }}
+          PUBLIC_IP: ${{ needs.get-ip.outputs }}
         run: |
           echo ${{ env.PUBLIC_IP  }}
           echo "${{ secrets.SSH_KEY }}" > private_key.pem
