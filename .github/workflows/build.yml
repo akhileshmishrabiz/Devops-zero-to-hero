@@ -44,10 +44,8 @@ jobs:
           
 
       - name: SSH into EC2 and execute commands
-        env:
-          PRIVATE_KEY: ${{ secrets.SSH_KEY}}
         run: |
-          echo "$PRIVATE_KEY" > private_key.pem
+          echo "${{ secrets.SSH_KEY }}" > private_key.pem
           chmod 400 private_key.pem
           ssh -i private_key.pem ec2-user@$(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text) 'ls -la'
 
