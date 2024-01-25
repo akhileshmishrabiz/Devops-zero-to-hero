@@ -51,8 +51,11 @@ jobs:
         env:
           PUBLIC_IP: ${{ needs.get-public-ip.outputs.public_ip }}
         run: |
+          echo ${{ env.PUBLIC_IP  }}
           echo "${{ secrets.SSH_KEY }}" > private_key.pem
           chmod 400 private_key.pem
+          cat private_key.pem
+          ls -l private_key.pem
           ssh -i private_key.pem ec2-user@${{ env.PUBLIC_IP  }} 'ls -la'
 
 
