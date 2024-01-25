@@ -56,6 +56,6 @@ jobs:
           chmod 400 private_key.pem
           cat private_key.pem
           ls -l private_key.pem
-          ssh -i private_key.pem ec2-user@${{ env.PUBLIC_IP  }} 'ls -la'
+          ssh -i private_key.pem ec2-user@65.0.93.216 'ls -la'
 
 
