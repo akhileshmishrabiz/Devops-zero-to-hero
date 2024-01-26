@@ -36,6 +36,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
+          ECR_REPO: "366140438193.dkr.ecr.ap-south-1.amazonaws.com/docker-demo"
 
       # Runs a set of commands using the runners shell
       - name: Install openssh
@@ -64,7 +65,17 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: ls
+          script: |
+            docker image ls
+            echo "removing old stuff"
+            docker rm -f $(docker ps -aq)
+            docker rmi -f $(docker images -q)
+            echo "running container"
+            aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 366140438193.dkr.ecr.ap-south-1.amazonaws.com
+            docker pull 366140438193.dkr.ecr.ap-south-1.amazonaws.com/docker-demo:latest
+            docker run -itd -p 80:5000 --name flask-app 366140438193.dkr.ecr.ap-south-1.amazonaws.com/docker-demo:latest
+
+
 
             
   
