@@ -57,16 +57,17 @@ jobs:
       - name: print out
         run: echo ${{ steps.set-pubip-output.outputs.EC2_PUBLIC_IP_OUT }}
 
-          
-        
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.EC2_PUBLIC_IP_ENV }}
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: ls
 
-
-      - name: SSH into EC2 and execute commands
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > private_key.pem
-          chmod 400 private_key.pem
-          ls -l private_key.pem
-          ssh -i private_key.pem -qT ec2-user@${{ env.EC2_PUBLIC_IP_ENV }} ls
+            
+  
 
       
 
