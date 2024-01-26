@@ -49,9 +49,10 @@ jobs:
           
       - name: getting various output
         run: |
-          echo ${{join(steps.get-ip.outputs.*, '\n')}}
+          #echo ${{join(steps.get-ip.outputs.*, '\n')}}
           echo "######"
-          echo $(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+          pub_ip = $(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+          echo $pub_ip
 
 
       # - name: SSH into EC2 and execute commands
