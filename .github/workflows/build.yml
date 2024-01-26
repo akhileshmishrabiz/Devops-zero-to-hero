@@ -52,25 +52,21 @@ jobs:
           echo "EC2_PUBLIC_IP_OUT=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)" >> "$GITHUB_OUTPUT"
 
       - name: print env
-        run: echo ${{ env.EC2_PUBLIC_IP_ENV   }}
+        run: echo ${{ env.EC2_PUBLIC_IP_ENV }}
 
       - name: print out
-        run: echo ${{steps.set-pubip-output.outputs.EC2_PUBLIC_IP_OUT}}
+        run: echo ${{ steps.set-pubip-output.outputs.EC2_PUBLIC_IP_OUT }}
 
           
         
 
 
-      # - name: SSH into EC2 and execute commands
-      #   env:
-      #     PUBLIC_IP: ${{ needs.get-ip.outputs }}
-      #   run: |
-      #     echo ${{ env.PUBLIC_IP  }}
-      #     echo "${{ secrets.SSH_KEY }}" > private_key.pem
-      #     chmod 400 private_key.pem
-      #     cat private_key.pem
-      #     ls -l private_key.pem
-      #     ssh -i private_key.pem -qT ec2-user@65.0.93.216 ls -la
+      - name: SSH into EC2 and execute commands
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > private_key.pem
+          chmod 400 private_key.pem
+          ls -l private_key.pem
+          ssh -i private_key.pem -qT ec2-user@${{ env.EC2_PUBLIC_IP_ENV }} ls
 
       
 
