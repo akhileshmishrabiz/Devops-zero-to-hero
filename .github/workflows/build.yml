@@ -62,7 +62,7 @@ jobs:
         with:
           host: ${{ env.EC2_PUBLIC_IP_ENV }}
           username: ec2-user
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: ls
 
