@@ -43,16 +43,22 @@ jobs:
           sudo apt-get install -y openssh-client
 
       - name: get public ip
-        id: get-ip
+        id: set-pubip-env
         run: |
-          aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+          echo "EC2_PUBLIC_IP_ENV=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)" >> "$GITHUB_ENV"          
+      
+      - name: set-pubip-output
+        run: |
+          echo "EC2_PUBLIC_IP_OUT=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)" >> "$GITHUB_OUTPUT"
+
+      - name: print env
+        run: echo ${{ env.EC2_PUBLIC_IP_ENV   }}
+
+      - name: print out
+        run: echo ${{steps.set-pubip-output.outputs.EC2_PUBLIC_IP_OUT}}
+
           
-      - name: getting various output
-        run: |
-          #echo ${{join(steps.get-ip.outputs.*, '\n')}}
-          echo "######"
-          pub_ip = `aws ec2 describe-instances --filters "Name=tag:Name,Values=docker-demo" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)`
-          echo $pub_ip
+        
 
 
       # - name: SSH into EC2 and execute commands
@@ -65,8 +71,6 @@ jobs:
       #     cat private_key.pem
       #     ls -l private_key.pem
       #     ssh -i private_key.pem -qT ec2-user@65.0.93.216 ls -la
-
-
 
       
 
