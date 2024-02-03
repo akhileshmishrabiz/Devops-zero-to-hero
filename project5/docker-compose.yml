@@ -5,8 +5,13 @@ services:
     build: . # This will build the container from the Dockerfile stored locally.
     ports:
       - "5000:5000"
+    networks:
+      - cool_network 
     depends_on:
-      - db
+      db:
+        condition: service_healthy   # will wait for db to be ready
+    links: 
+        - db
 
   db:
     image: postgres:latest
@@ -16,8 +21,22 @@ services:
       POSTGRES_DB: mydatabase
     ports:
       - "5432:5432"
+    restart: always
     volumes:
       - postgres_data_new:/var/lib/postgresql/data
+    networks:
+      - cool_network
+    healthcheck:      
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -t 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+
+      # https://medium.com/@pooya.oladazimi/dockerizing-flask-app-with-postgres-a-step-by-step-guide-e9fc9939deff
 
 volumes:
   postgres_data_new:
+
+networks:
+  cool_network:
