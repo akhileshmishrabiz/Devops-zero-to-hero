@@ -11,7 +11,7 @@ class Data(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
-    
+
 def create_table():
     with app.app_context():
         db.create_all()
