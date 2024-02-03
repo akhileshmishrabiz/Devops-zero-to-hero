@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask PostgreSQL Docker App</title>
+    
+</head>
+<body>
+    <h1>Add Data</h1>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Enter name">
+        <button type="submit">Add</button>
+    </form>
+    <h2>Data in Database</h2>
+    <ul>
+        {% for item in data %}
+        <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
