@@ -1,0 +1,36 @@
+name: Terraform Destroy
+
+on:
+    # Defines the trigger for the workflow
+    # It will enable running the workflow manually from the GitHub Actions UI
+    workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    # Defines environment variables for the job
+    env:
+      # AWS credentials provided by GitHub Secrets
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ap-south-1  # Specifies the AWS region
+      TERRAFORM_VER: 1.5.1     # Specifies the Terraform version to use
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        # Sets up the Terraform CLI with the specified version
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TERRAFORM_VER }} 
+
+      - name: Terraform Init
+        # Initializes the Terraform working directory
+        run: terraform init
+
+      - name: Terraform Destroy
+        # Destroys all resources managed by Terraform in the current configuration
+        run: terraform destroy -auto-approve
