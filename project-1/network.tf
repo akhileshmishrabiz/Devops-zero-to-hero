@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "main" {
     tomap({ "Name" = "${local.prefix}-main" })
   )
 }
-
+# Elastic ip will be used by NAT gateway
 resource "aws_eip" "public" {
   tags = merge(
     local.common_tags,
