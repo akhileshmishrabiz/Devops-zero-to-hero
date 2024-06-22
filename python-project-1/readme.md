@@ -33,24 +33,4 @@ The script is executed via command-line arguments, which allow the user to speci
     pip install boto3
     ```
 
-## Usage
 
-### Command Line Arguments
-
-- `--accounts` or `-a`: List of AWS account IDs.
-- `--role-name` or `-r`: Name of the IAM role to assume in each account.
-- `--kms-key-id` or `-k`: KMS key ID to use for encryption.
-
-### Running the Script
-
-1. Ensure you have configured AWS credentials with the permissions to assume the specified role in each AWS account.
-
-2. Run the script with the required arguments:
-    ```sh
-    python main.py --accounts 123456789012 987654321098 --role-name MyRoleName --kms-key-id my-kms-key-id
-    ```
-
-## Example
-
-```sh
-python main.py --accounts 123456789012 987654321098 --role-name MyRoleName --kms-key-id my-kms-key-id
