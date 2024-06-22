@@ -1,54 +1,56 @@
 # SQS Queue Encryption Script
-This Python script uses the AWS SDK for Python (Boto3) to manage encryption for AWS SQS (Simple Queue Service) queues. The script performs the following tasks:
 
-Lists all SQS queue URLs in the AWS account.
+This repository contains a Python script to encrypt unencrypted SQS queues using a specified KMS key across multiple AWS accounts. The script assumes an IAM role in each account to perform the necessary operations.
 
-Identifies which queues are not encrypted.
+# Medium blog explaining this automation
 
-Encrypts the unencrypted queues using a specified KMS (Key Management Service) key.
+https://medium.com/@akhilesh-mishra/python-for-devops-automating-sqs-encryption-for-enhanced-security-641a3d22a958
 
-# Prerequisites
-Before using this script, ensure you have the following:
+### Introduction
 
-AWS Account: Access to an AWS account with the necessary permissions to manage SQS queues and KMS keys.
+This Python script is designed to manage Amazon SQS queues and apply server-side encryption using AWS KMS keys across multiple AWS accounts. The script leverages Boto3 to interact with AWS services and assumes IAM roles in specified AWS accounts to gain the necessary permissions. It performs the following key functions:
 
-AWS CLI Configuration: AWS CLI should be configured with the appropriate credentials.
+1. **Assume IAM Role**: Temporarily assumes an IAM role in the specified AWS account to obtain credentials.
+2. **List SQS Queues**: Retrieves a list of all SQS queues in the account.
+3. **Get Queue Attributes**: Fetches the attributes of each SQS queue, checking for existing encryption.
+4. **Encrypt SQS Queue**: Applies server-side encryption to unencrypted SQS queues using a specified KMS key.
+5. **Process Accounts**: Scans multiple AWS accounts for unencrypted SQS queues and applies encryption where needed.
 
-aws configure
-Boto3: The AWS SDK for Python should be installed.
+The script is executed via command-line arguments, which allow the user to specify the AWS account IDs, IAM role name, and KMS key ID. It processes each account and logs the actions taken, providing error handling to manage any issues that arise during execution. This tool is essential for enhancing the security of SQS queues by ensuring they are encrypted with KMS keys.
 
-pip install boto3
+## Prerequisites
 
-Usage
-Functions
-list_queue_urls
+- Python 3.6+
+- Boto3 library
+- AWS credentials with the necessary permissions to assume roles and manage SQS queues
 
-Lists all SQS queue URLs in the AWS account.
-Returns: A list of queue URLs.
-get_kms_key
+## Installation
 
-Retrieves the KMS key ID associated with a given SQS queue URL.
+1. Clone the repository or copy the scripts to your local machine.
 
-Parameters:
-queue_url (str): The URL of the SQS queue.
+2. Install the required Python packages:
+    ```sh
+    pip install boto3
+    ```
 
-Returns: The KMS key ID if the queue is encrypted, otherwise None.
-queue_without_encryption
+## Usage
 
-Identifies SQS queues that are not encrypted.
-Returns: A list of URLs of SQS queues without encryption.
+### Command Line Arguments
 
-encrypt_queue
+- `--accounts` or `-a`: List of AWS account IDs.
+- `--role-name` or `-r`: Name of the IAM role to assume in each account.
+- `--kms-key-id` or `-k`: KMS key ID to use for encryption.
 
-Encrypts a given SQS queue with the specified KMS key.
+### Running the Script
 
-Parameters:
-queue_url (str): The URL of the SQS queue to encrypt.
-kms_key (str): The KMS key ID to use for encryption.
-Returns: The response from the set_queue_attributes call.
-run
+1. Ensure you have configured AWS credentials with the permissions to assume the specified role in each AWS account.
 
-Encrypts all unencrypted SQS queues with the specified KMS key.
+2. Run the script with the required arguments:
+    ```sh
+    python main.py --accounts 123456789012 987654321098 --role-name MyRoleName --kms-key-id my-kms-key-id
+    ```
 
-Parameters:
-kms_key (str): The KMS key ID to use for encryption.
+## Example
+
+```sh
+python main.py --accounts 123456789012 987654321098 --role-name MyRoleName --kms-key-id my-kms-key-id
