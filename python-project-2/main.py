@@ -1,71 +1,108 @@
 import boto3
-import argparse
+from typing import Optional, List, Dict, Any
 import logging
+from packaging.version import Version
+import colorlog
+import argparse
 
-# Set up logging configuration
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Create a Lambda client
+lambda_client = boto3.client('lambda')
 
-def list_lambda_functions():
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Encrypt unencrypted SQS queues across multiple AWS accounts.")
+    parser.add_argument('--python_version', '-a', required=True, help="List of AWS account IDs.")
+    return  parser.parse_args()
+def list_lambda_functions() -> Optional[List[Dict[str, Any]]]:
     """
-    List all Lambda functions in the AWS account using pagination.
+    List all AWS Lambda functions in the account.
 
-    :return: List of Lambda functions.
+    :return: A list of dictionaries containing Lambda function details, or None if not found.
     """
-    client = boto3.client('lambda')
-    paginator = client.get_paginator('list_functions')
-    lambda_functions = []
+    return lambda_client.list_functions().get("Functions", None)
 
-    # Paginate through all Lambda functions
-    for page in paginator.paginate():
-        lambda_functions.extend(page['Functions'])
-    
-    return lambda_functions
+def get_name_runtime(lambda_json_list: List[Dict[str, Any]]) -> List[tuple]:
+    """
+    Extract function names and runtimes from a list of Lambda function details.
 
-def update_lambda_runtime(function_name, current_runtime, new_runtime):
+    :param lambda_json_list: A list of dictionaries with Lambda function details.
+    :return: A list of tuples containing function names and runtimes.
+    """
+    temp = []
+    for item in lambda_json_list:
+        name = item.get("FunctionName", "")
+        runtime = item.get("Runtime", None)
+        if runtime:
+            temp.append((name, runtime))
+    return temp
+
+def compare_runtime(runtime: str, runtime_to_compare_with: str) -> bool:
+    """
+    Compare two Python runtimes to check if the first is older than the second.
+
+    :param runtime: The current runtime version string.
+    :param runtime_to_compare_with: The runtime version string to compare against.
+    :return: True if the current runtime is older, otherwise False.
+    """
+    return Version(runtime.split("python")[-1]) < Version(runtime_to_compare_with.split("python")[-1])
+
+def update_runtime(function_name: str, old_runtime: str, new_runtime: str) -> None:
     """
     Update the runtime of a specified Lambda function.
 
-    :param function_name: Name of the Lambda function.
-    :param current_runtime: Current runtime of the Lambda function.
-    :param new_runtime: Desired runtime to update to.
+    :param function_name: The name of the Lambda function to update.
+    :param old_runtime: The current runtime of the function.
+    :param new_runtime: The new runtime to set for the function.
     """
-    client = boto3.client('lambda')
+    logging.info(f'Updating {function_name} runtime from {old_runtime} to {new_runtime}')
     try:
-        client.update_function_configuration(
+        lambda_client.update_function_configuration(
             FunctionName=function_name,
             Runtime=new_runtime
         )
-        logger.info(f"Updated {function_name} from {current_runtime} to {new_runtime}")
     except Exception as e:
-        logger.error(f"Failed to update {function_name} from {current_runtime} to {new_runtime}: {e}")
+        logging.error("An error occurred while updating the runtime")
 
-def main(desired_python_version, desired_nodejs_version):
+def apply_logs() -> None:
     """
-    Main function to list and update Lambda runtimes to desired versions.
-
-    :param desired_python_version: Desired Python runtime version (e.g., python3.9).
-    :param desired_nodejs_version: Desired NodeJS runtime version (e.g., nodejs14.x).
+    Apply logging configuration with color coding.
     """
-    lambdas = list_lambda_functions()
+    handler = colorlog.StreamHandler()
+    handler.setFormatter(colorlog.ColoredFormatter(
+        '%(log_color)s%(asctime)s - %(levelname)s - %(message)s',
+        log_colors={
+            'DEBUG': 'cyan',
+            'INFO': 'green',
+            'WARNING': 'yellow',
+            'ERROR': 'red',
+            'CRITICAL': 'bold_red',
+        }
+    ))
 
-    # Iterate over all Lambda functions
-    for function in lambdas:
-        runtime = function['Runtime']
-        function_name = function['FunctionName']
+    logger = colorlog.getLogger()
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
 
-        # Check if the runtime is an older version of Python
-        if runtime.startswith('python') and runtime < desired_python_version:
-            update_lambda_runtime(function_name, runtime, desired_python_version)
-        # Check if the runtime is an older version of NodeJS
-        elif runtime.startswith('nodejs') and runtime < desired_nodejs_version:
-            update_lambda_runtime(function_name, runtime, desired_nodejs_version)
+def run(runtime_to_compare_with: str) -> None:
+    """
+    Update all Lambda functions to a specified runtime if their current runtime is older.
+
+    :param runtime_to_compare_with: The runtime version string to compare against.
+    """
+    apply_logs()
+
+    data = get_name_runtime(list_lambda_functions() or [])
+    temp = []
+    for item in data:
+        name, runtime = item
+        if compare_runtime(runtime, runtime_to_compare_with):
+            temp.append(name)
+            update_runtime(name, runtime, runtime_to_compare_with)
+    if not temp:
+        logging.info(f"No functions with runtime older than {runtime_to_compare_with}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Update AWS Lambda runtimes to desired versions.")
-    parser.add_argument('--python-version', type=str, required=True, help="Desired Python runtime version (e.g., python3.9)")
-    parser.add_argument('--nodejs-version', type=str, required=True, help="Desired NodeJS runtime version (e.g., nodejs14.x)")
+    args=parse_arguments()
+    runtime_to_compare_with =args.python_version
+    run(runtime_to_compare_with)
 
-    args = parser.parse_args()
-
-    main(args.python_version, args.nodejs_version)
