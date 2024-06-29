@@ -1,0 +1,23 @@
+# function ->
+
+# JOb is -> update the lambda runtime if it is not supported -> python 3.8
+
+# 1. list all lambdas -> list[str]
+# 2. Get the runtime of lambda -> str
+# 3. compare the runtime and tell if it is required to be updtee -> True/Flase -> bool
+# 4. update the runtime  ->  return None
+#
+# import boto3
+# from botocore.config import Config
+#
+# my_config = Config(
+#     region_name = 'us-west-2',
+#     signature_version = 'v4',
+#     retries = {
+#         'max_attempts': 10,
+#         'mode': 'standard'
+#     }
+# )
+# client = boto3.client('kinesis', config=my_config)
+###
+#lambda_client = boto3.client('lambda', region= "ap-south-1")
