@@ -1,9 +1,10 @@
-import boto3
-from typing import Optional, List, Dict, Any
-import logging
-from packaging.version import Version
-import colorlog
-import argparse
+import boto3  # Import the Boto3 library for interacting with AWS services.
+from packaging.version import Version  # Import the Version class for version parsing and comparison.
+import argparse  # Import the argparse module for parsing command-line arguments.
+from typing import Optional, List, Dict, Any  # Import type hints for optional, list, dictionary, and any types.
+import logging  # Import the logging module for logging messages.
+import colorlog  # Import the colorlog module for colored logging output.
+
 
 # Create a Lambda client
 lambda_client = boto3.client('lambda')
