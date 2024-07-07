@@ -11,9 +11,10 @@ lambda_client = boto3.client('lambda')
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Encrypt unencrypted SQS queues across multiple AWS accounts.")
-    parser.add_argument('--python_version', '-a', required=True, help="List of AWS account IDs.")
-    return  parser.parse_args()
+    parser = argparse.ArgumentParser(description=" take python version as input")
+    parser.add_argument('--python_version', '-a', required=True, help=" Python version")
+    return parser.parse_args()
+    
 def list_lambda_functions() -> Optional[List[Dict[str, Any]]]:
     """
     List all AWS Lambda functions in the account.
