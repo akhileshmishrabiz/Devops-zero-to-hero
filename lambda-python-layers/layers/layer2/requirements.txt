@@ -1,0 +1,4 @@
+pyzipper ==0.3.6
+pycryptodome ==3.20.0
+cryptography ==41.0.7
+PyPDF2 ==3.0.1

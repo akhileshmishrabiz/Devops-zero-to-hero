@@ -17,8 +17,7 @@ locals {
 
   # Map of layers info for the layers need to be build with this Terraform -> {layer_identifier:{layer_definitions }}
   layers_info = { for i in local.layer_definitions : i.identifier => i }
-
-
+}
 
 #   # List of layers names
 #   layer_names = [for i in local.layer_definitions : i.identifier]
@@ -31,4 +30,4 @@ locals {
   
 #   # Map to be used by for_each loop for resource
 #   layers_to_accounts_map = { for item in local.layers_to_accounts : item.id => item }
-}
+# }
