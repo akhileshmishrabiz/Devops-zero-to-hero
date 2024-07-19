@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "lambda_artifacts" {
-  bucket = "lambda-artifacts"
+  bucket = "lambda-layer-artifacts"
   tags = {
-    Name = "lambda-artifacts"
+    Name = "lambda-layer-artifacts"
   }
 }
 
