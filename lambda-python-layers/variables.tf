@@ -11,8 +11,6 @@ variable "lambda_default_settings" {
   }
 }
 
-variable "prefix"
-
 
 # variable "s3_default_settings" {
 #   type = object({
