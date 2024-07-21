@@ -1,0 +1,25 @@
+{
+    "family": "flask-crud-app",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "flask-crud-app",
+            "image": "<your-account-id>.dkr.ecr.<your-region>.amazonaws.com/flask-crud-app:latest",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}

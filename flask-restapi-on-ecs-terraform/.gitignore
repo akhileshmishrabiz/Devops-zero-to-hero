@@ -1,0 +1,5 @@
+*.zip
+*.env
+.terraform/*
+*.terraform
+.terraform.lock.hcl
