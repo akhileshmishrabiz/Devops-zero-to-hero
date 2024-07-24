@@ -61,7 +61,7 @@ resource "aws_ecs_service" "flask_api" {
   load_balancer {
     target_group_arn = aws_lb_target_group.flask_api.arn
     container_name   = "flask-app"
-    container_port   = 5000
+    container_port   = var.container_port
   }
 
   depends_on = [
