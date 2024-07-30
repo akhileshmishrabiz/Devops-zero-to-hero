@@ -116,6 +116,82 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 - `btrfs filesystem show` - Show Btrfs file systems.
 - `zfs list` - List ZFS file systems.
 
+  ## 🌐 Network Management 🌐
+
+### Simple
+- `ping hostname` - Check connectivity to a host.
+- `curl http://example.com` - Make a web request.
+- `wget http://example.com/file` - Download a file.
+- `hostname` - Display or set the system hostname.
+- `ifconfig` - Display network interface information.
+- `ip a` - Display IP addresses and interfaces.
+- `ip link set dev interface up/down` - Bring a network interface up or down.
+- `netstat -rn` - Display routing table.
+- `traceroute hostname` - Trace the route to a host.
+- `nslookup hostname` - Query DNS records for a domain.
+
+### Intermediate
+- `dig domain` - Query DNS records.
+- `arp -a` - Display the ARP table.
+- `ss -tuln` - List listening ports and services.
+- `ip route` - Show routing table.
+- `ip addr add ip_address dev interface` - Add an IP address to an interface.
+- `iptables -A INPUT -p tcp --dport 22 -j ACCEPT` - Allow SSH traffic.
+- `iptables -L -v -n` - List detailed firewall rules.
+- `ifup interface` - Bring an interface up.
+- `ifdown interface` - Bring an interface down.
+- `iwconfig` - Configure wireless interfaces.
+
+### Advanced
+- `tcpdump -i interface -w file.pcap` - Capture network traffic to a file.
+- `tcpdump -nn -i interface 'port 80'` - Capture HTTP traffic.
+- `nmap -sP 192.168.1.0/24` - Scan for live hosts on a network.
+- `nmap -sV -p 1-65535 hostname` - Scan all ports and detect service versions.
+- `ssh user@hostname` - Connect to a remote host via SSH.
+- `scp user@host:/path/file /local/path` - Securely copy a file from a remote host.
+- `scp /local/path/file user@host:/path` - Securely copy a file to a remote host.
+- `rsync -avz source destination` - Synchronize files and directories.
+- `ipset create setname hash:ip` - Create an IP set for firewall rules.
+- `ipset add setname ip_address` - Add an IP to an IP set.
+
+## 🔄 Process and System Management 🔄
+
+### Simple
+- `ps aux` - Display all running processes.
+- `killall process_name` - Terminate all processes with the specified name.
+- `bg` - Resume a suspended job in the background.
+- `fg` - Bring a job to the foreground.
+- `jobs` - List background jobs.
+- `nohup command &` - Run a command immune to hangups.
+- `who` - Show who is logged on.
+- `last` - Show the last logins on the system.
+- `w` - Show who is logged on and what they are doing.
+- `su - user` - Switch to another user.
+
+### Intermediate
+- `kill -9 PID` - Forcefully terminate a process.
+- `pkill process_name` - Send a signal to processes by name.
+- `top` - Display real-time system stats.
+- `htop` - Interactive process viewer.
+- `free -m` - Display memory usage in megabytes.
+- `df -h` - Show disk usage in human-readable format.
+- `du -sh directory` - Show directory size.
+- `uptime` - Show system uptime.
+- `uname -r` - Display the kernel version.
+- `vmstat` - Report virtual memory statistics.
+
+### Advanced
+- `dmesg | less` - View kernel ring buffer messages.
+- `sysctl -a` - List all kernel parameters.
+- `sysctl -w parameter=value` - Set a kernel parameter.
+- `ulimit -a` - Show user limits.
+- `strace -p PID` - Trace system calls and signals.
+- `lsof -i` - List open files and the processes using them.
+- `renice -n priority -p PID` - Change the priority of a running process.
+- `at now + 5 minutes` - Schedule a command to run in 5 minutes.
+- `crontab -l` - List cron jobs for the current user.
+- `crontab -e` - Edit cron jobs for the current user.
+
 ## 🔍 Search and Find 🔍
 
 ### Simple
@@ -152,4 +228,52 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 - `awk '{print $1, $2}' filename` - Print multiple columns.
 - `awk 'NR%2==0' filename` - Print every second line.
 - `sed '/pattern/d' filename` - Delete lines matching a pattern.
--
+- `grep -C 3 'pattern' filename` - Show 3 lines before and after matches.
+- `find /path -iname 'filename'` - Case-insensitive file search.
+- `find /path -type d -name 'dirname'` - Find directories by name.
+- `awk '{sum += $1} END {print sum}' filename` - Sum the values in the first column.
+- `awk 'length($0) > 80' filename` - Print lines longer than 80 characters.
+- `sed 's/\<word\>/replacement/g' filename` - Replace whole words.
+- `sed -i 's/old/new/g' filename` - Edit a file in-place.
+- `cut -f1,3 filename` - Extract specific fields from a tab-delimited file.
+- `cut -d, -f1-3 filename` - Extract fields from a CSV file.
+- `sort -n filename` - Sort numerically.
+
+## 🔒 Security and Permissions 🔒
+
+### Simple
+- `passwd` - Change user password.
+- `chmod 755 filename` - Set file permissions.
+- `chown user:group filename` - Change file owner and group.
+- `umask 022` - Set default file permissions.
+- `sudo command` - Execute a command as another user.
+- `groups` - Show groups a user is a member of.
+- `id` - Display user identity.
+- `ssh-keygen` - Generate an SSH key pair.
+- `ssh-copy-id user@host` - Install an SSH key on a remote server.
+- `sudo -i` - Start a root shell session.
+
+### Intermediate
+- `visudo` - Edit the sudoers file safely.
+- `sshd` - OpenSSH server daemon.
+- `firewall-cmd --state` - Check the status of firewalld.
+- `firewall-cmd --permanent --add-service=http` - Add a service to the firewall.
+- `firewall-cmd --reload` - Reload firewalld configuration.
+- `semanage fcontext` - Manage SELinux file contexts.
+- `restorecon -v filename` - Restore SELinux context.
+- `auditctl -l` - List audit rules.
+- `ausearch -m avc` - Search audit logs for SELinux denials.
+- `faillock` - Display the user login failure attempts.
+
+### Advanced
+- `setenforce 0` - Set SELinux to permissive mode.
+- `setenforce 1` - Set SELinux to enforcing mode.
+- `getenforce` - Display current SELinux mode.
+- `iptables -A INPUT -p tcp --dport 22 -j ACCEPT` - Allow SSH.
+- `iptables-save > /etc/iptables/rules.v4` - Save iptables rules.
+- `modprobe module_name` - Load a kernel module.
+- `rmmod module_name` - Remove a kernel module.
+- `auditctl -w /etc/passwd -p wa` - Watch for changes to the passwd file.
+- `fail2ban-client status` - Display Fail2ban status.
+- `fail2ban-client set jail unbanip IP` - Unban an IP address.
+
