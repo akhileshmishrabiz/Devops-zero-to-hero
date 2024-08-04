@@ -7,7 +7,7 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 ### Simple
 - `ls` - List files and directories.
 - `cd directory_name` - Change directory.
-- `touch filename` - Create a file.
+- `touch filename` - Create a empty file.
 - `mkdir directory_name` - Create a directory.
 - `rm filename` - Remove a file.
 - `rm -r directory_name` - Remove a directory.
@@ -77,44 +77,6 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 - `service service_name start/stop/restart` - Start, stop, or restart a service.
 - `journalctl -xe` - View the systemd journal logs.
 - `crontab -e` - Edit the crontab for scheduling tasks.
-
-## 💾 Disk and Storage Management 💾
-
-### Simple
-- `mount /dev/device /mnt/point` - Mount a file system.
-- `umount /mnt/point` - Unmount a file system.
-- `lsblk` - List information about block devices.
-- `fdisk -l` - Display disk partition information.
-- `blkid` - Display block device attributes.
-- `mkfs -t ext4 /dev/device` - Create an ext4 file system on a device.
-- `df -Th` - Show disk space usage by file system type.
-- `sync` - Flush file system buffers.
-- `eject /dev/cdrom` - Eject removable media.
-- `file filename` - Determine the file type.
-
-### Intermediate
-- `parted /dev/device` - Partition a disk.
-- `tune2fs -l /dev/device` - List the attributes of an ext4 file system.
-- `e2fsck /dev/device` - Check and repair an ext4 file system.
-- `resize2fs /dev/device` - Resize an ext4 file system.
-- `mount -o loop image.iso /mnt/point` - Mount an ISO image.
-- `xfs_info /mnt/point` - Display XFS file system information.
-- `xfs_growfs /mnt/point` - Grow an XFS file system.
-- `cryptsetup luksFormat /dev/device` - Set up LUKS encryption.
-- `cryptsetup luksOpen /dev/device name` - Open a LUKS-encrypted device.
-- `lvdisplay` - Display LVM logical volumes.
-
-### Advanced
-- `vgcreate volume_group /dev/device` - Create a volume group.
-- `lvcreate -L 10G -n logical_volume volume_group` - Create a logical volume.
-- `lvextend -L +5G /dev/volume_group/logical_volume` - Extend a logical volume.
-- `lvreduce -L -5G /dev/volume_group/logical_volume` - Reduce a logical volume.
-- `vgreduce volume_group /dev/device` - Remove a physical volume from a volume group.
-- `mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sd[b-c]` - Create a RAID 1 array.
-- `mdadm --detail /dev/md0` - Display RAID array details.
-- `lvm2` - Use Logical Volume Manager 2.
-- `btrfs filesystem show` - Show Btrfs file systems.
-- `zfs list` - List ZFS file systems.
 
   ## 🌐 Network Management 🌐
 
@@ -225,14 +187,14 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 - `grep -E 'pattern1|pattern2' filename` - Search for multiple patterns.
 - `grep -A 3 'pattern' filename` - Show 3 lines after matches.
 - `grep -B 3 'pattern' filename` - Show 3 lines before matches.
-- `awk '{print $1, $2}' filename` - Print multiple columns.
-- `awk 'NR%2==0' filename` - Print every second line.
 - `sed '/pattern/d' filename` - Delete lines matching a pattern.
 - `grep -C 3 'pattern' filename` - Show 3 lines before and after matches.
 - `find /path -iname 'filename'` - Case-insensitive file search.
 - `find /path -type d -name 'dirname'` - Find directories by name.
 - `awk '{sum += $1} END {print sum}' filename` - Sum the values in the first column.
 - `awk 'length($0) > 80' filename` - Print lines longer than 80 characters.
+- `awk '{print $1, $2}' filename` - Print multiple columns.
+- `awk 'NR%2==0' filename` - Print every second line.
 - `sed 's/\<word\>/replacement/g' filename` - Replace whole words.
 - `sed -i 's/old/new/g' filename` - Edit a file in-place.
 - `cut -f1,3 filename` - Extract specific fields from a tab-delimited file.
@@ -277,3 +239,41 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 - `fail2ban-client status` - Display Fail2ban status.
 - `fail2ban-client set jail unbanip IP` - Unban an IP address.
 
+
+## 💾 Disk and Storage Management 💾
+
+### Simple
+- `mount /dev/device /mnt/point` - Mount a file system.
+- `umount /mnt/point` - Unmount a file system.
+- `lsblk` - List information about block devices.
+- `fdisk -l` - Display disk partition information.
+- `blkid` - Display block device attributes.
+- `mkfs -t ext4 /dev/device` - Create an ext4 file system on a device.
+- `df -Th` - Show disk space usage by file system type.
+- `sync` - Flush file system buffers.
+- `eject /dev/cdrom` - Eject removable media.
+- `file filename` - Determine the file type.
+
+### Intermediate
+- `parted /dev/device` - Partition a disk.
+- `tune2fs -l /dev/device` - List the attributes of an ext4 file system.
+- `e2fsck /dev/device` - Check and repair an ext4 file system.
+- `resize2fs /dev/device` - Resize an ext4 file system.
+- `mount -o loop image.iso /mnt/point` - Mount an ISO image.
+- `xfs_info /mnt/point` - Display XFS file system information.
+- `xfs_growfs /mnt/point` - Grow an XFS file system.
+- `cryptsetup luksFormat /dev/device` - Set up LUKS encryption.
+- `cryptsetup luksOpen /dev/device name` - Open a LUKS-encrypted device.
+- `lvdisplay` - Display LVM logical volumes.
+
+### Advanced
+- `vgcreate volume_group /dev/device` - Create a volume group.
+- `lvcreate -L 10G -n logical_volume volume_group` - Create a logical volume.
+- `lvextend -L +5G /dev/volume_group/logical_volume` - Extend a logical volume.
+- `lvreduce -L -5G /dev/volume_group/logical_volume` - Reduce a logical volume.
+- `vgreduce volume_group /dev/device` - Remove a physical volume from a volume group.
+- `mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sd[b-c]` - Create a RAID 1 array.
+- `mdadm --detail /dev/md0` - Display RAID array details.
+- `lvm2` - Use Logical Volume Manager 2.
+- `btrfs filesystem show` - Show Btrfs file systems.
+- `zfs list` - List ZFS file systems.
