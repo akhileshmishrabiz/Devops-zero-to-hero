@@ -1,7 +1,0 @@
-Flask==3.0.3
-Flask_Bcrypt==1.0.1
-flask-mysql
-
-# for postgres app
-# Flask-SQLAlchemy
-# psycopg2-binary
