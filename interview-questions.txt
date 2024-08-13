@@ -1,0 +1,90 @@
+1. What are your daily responsibilities as a DevOps engineer?
+2. Which DevOps tools are you proficient with?
+3. Can you describe the CI/CD workflow in your project?
+4. How do you handle the continuous delivery (CD) aspect in your projects?
+5. What methods do you use to check for code vulnerabilities?
+6. What AWS services are you proficient in?
+7. How would you access data in an S3 bucket from Account A when your application is running on an EC2 instance in Account B?
+8. How do you provide access to an S3 bucket, and what permissions need to be set on the bucket side?
+9. How can Instance 2, with a static IP, communicate with Instance 1, which is in a private subnet and mapped to a multi-AZ load balancer?
+10. For an EC2 instance in a private subnet, how can it verify and download required packages from the internet without using a NAT gateway or bastion host? Are there any other AWS services that can facilitate this?
+11. What is the typical latency for a load balancer, and if you encounter high latency, what monitoring steps would you take?
+12. If your application is hosted in S3 and users are in different geographic locations, how can you reduce latency?
+13. Which services can be integrated with a CDN (Content Delivery Network)?
+14. How do you dynamically retrieve VPC details from AWS to create an EC2 instance using IaC?
+15. How do you manage unmanaged AWS resources in Terraform?
+16. How do you pass arguments to a VPC while using the `terraform import` command?
+17. What are the prerequisites before importing a VPC in Terraform?
+18. If an S3 bucket was created through Terraform but someone manually added a policy to it, how do you handle this situation using IaC?
+19. How do you handle credentials for a PHP application accessing MySQL or any other secrets in Docker?
+20. What is the command for running container logs?
+21. Have you upgraded any Kubernetes clusters?
+22. How do you deploy an application in a Kubernetes cluster?
+23. How do you communicate with a Jenkins server and a Kubernetes cluster?
+24. How do you generate Kubernetes cluster credentials?
+25. Do you only update Docker images in Kubernetes, or do you also update replicas, storage levels, and CPU allocation?
+26. What types of pipelines are there in Jenkins?
+27. Can you define environment variables inside your Jenkins pipeline?
+28. What is the role of artifacts in Jenkins, and why do we need to push them to Nexus instead of building and storing them locally?
+29. If you’re developing a Python-based application, how do you separate the packages needed for your local deployment to avoid interfering with globally installed packages?
+30. How do you handle error handling in Python?
+
+
+Part 2:
+
+1. What is GIT stash ?
+2. What is a branching strategy?
+3. What is the command to discard changes in the working dir?
+4. How do you debug the exited container?
+5. How do you execute jobs parallely in Jenkins?
+6. Maven Lifecycle?
+7. How do you upgrade Jenkins?
+8. What is called a Parameterised Job in Jenkins?
+9. What is called Docker Swarm?
+10. How do you handle codes in Nexus satisfactory?
+11. How do you manage space issues in the Jenkins server?
+12. what is called a multibranch project in the Jenkins server ?
+13. How do you secure the Jenkins server?
+14. How do you manage GITHUB roles?
+15. What is called a NULL resource in Terraform?
+16. What is called terraform fmt ?
+17.What is called Snowball?
+18. How do you manage credentials in Terraform?
+19. What is called Code Deploy in AWS?
+20. Can you attach a single EBS volume to multiple EC2 instances at the same time?
+21. Can you use Multiple FROM in DockerFile ?
+22. DockerFile runs as which user?
+23. How can we pass an argument to DockerFile?
+24. What are deployment strategies?
+25. What is called an application load balancer?
+26. What is Kubernetes architecture ?
+27. What is called Fargate service in AWS?
+28. What are Register targets in Ansible?
+29. How do you pull artifacts from NEXUS?
+30. How to access the S3 bucket privately ?
+31. What is the difference between a NAT inst and a NAT Gateway?
+32. How can you restrict particular IPs accessing EC2 instances?
+33. What is called VPC peering?
+34. What is called Transit Gateway?
+35. What are the types of autoscaling?
+36. To prevent DDOS attacks, which load balancer is used ?
+37. What is called a sticky session?
+38. What is called Lambda?
+39. How do you manage tfstate file in Terraform?
+40. How do yo create multiple ec2 instances in terraform ?
+41. AWS has released a new service, how does Terraform behave?
+42. How do you uncommit the changes that have already been pushed to GitHub?
+43. What is the difference between git pull and git fetch?
+44. What is called Jenkins File?
+45. What is called Shared Libraries in Jenkins?
+46. What is called docker networking?
+47. What is called a Trust relationship in AWS?
+48. What is called Public Subnet and Private Subnet?
+49. How do you establish a connection between ec2 instance to another ec2 instance?
+50. What is realm command ?
+51. How do you differentiate within an AWS account dev env, test env, and prod env?
+52. Types of ec2 instances?
+53. How can you encrypt the already created unencrypted EBS without creating a fresh EC2 instance?
+54. How do you install Nginx in the Ansible playbook?
+55. How do you recover the deleted object in S3?
+
