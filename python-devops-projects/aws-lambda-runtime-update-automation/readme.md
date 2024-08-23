@@ -1,5 +1,9 @@
-AWS Lambda Runtime Updater
+# AWS Lambda Runtime Updater
 This Python script lists AWS Lambda functions running older versions of Python and NodeJS runtimes and updates them to specified newer versions. It leverages the AWS Boto3 library to interact with AWS Lambda, using pagination to handle large sets of Lambda functions.
+
+# Medium Blog explaining the automation
+https://medium.com/@akhilesh-mishra/automate-outdated-aws-lambda-runtime-updates-752ec4dc9fd4
+
 
 Requirements
 Python 3.6+
