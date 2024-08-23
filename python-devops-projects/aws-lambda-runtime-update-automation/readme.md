@@ -6,6 +6,7 @@ https://medium.com/@akhilesh-mishra/automate-outdated-aws-lambda-runtime-updates
 
 
 Requirements
+
 Python 3.6+
 Boto3
 
