@@ -1,0 +1,19 @@
+# Install dependencies
+sudo apt-get update
+sudo apt-get install -y git curl
+
+# Clone tfenv repository
+git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+
+# Add tfenv to PATH
+echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+# Verify tfenv installation
+tfenv --version
+
+
+tfenv install 1.6.6
+tfenv use 1.6.6
+
+terraform --version
