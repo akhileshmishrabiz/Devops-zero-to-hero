@@ -1,5 +1,0 @@
-*.zip
-*.terraform
-*.hcl
-
-aws/
