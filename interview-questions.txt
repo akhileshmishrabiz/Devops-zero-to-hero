@@ -43,7 +43,7 @@ Part 2:
 9. What is called Docker Swarm?
 10. How do you handle codes in Nexus satisfactory?
 11. How do you manage space issues in the Jenkins server?
-12. what is called a multibranch project in the Jenkins server ?
+12. what is called a multibranch project in the Jenkins server ?v
 13. How do you secure the Jenkins server?
 14. How do you manage GITHUB roles?
 15. What is called a NULL resource in Terraform?
