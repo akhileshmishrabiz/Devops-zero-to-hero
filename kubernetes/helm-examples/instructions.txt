@@ -1,11 +1,18 @@
-# Create a directory called "mychart"
-mkdir mychart  
+# Install helm 
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+helm version
 
-# Change directory to "mychart"
-cd mychart  
+# Add repo
+helm repo add bitnami https://charts.bitnami.com/bitnami
+# search repo
+helm search repo bitnami
+# Make sure we get the latest list of charts
+helm repo update  
 
-# Create a Helm chart named "mychart"
-helm create mychart  
-helm install mychart ./mychart  # Install the Helm chart named "mychart"
-kubectl get pods  # Get the list of pods in the Kubernetes cluster
-kubectl get services  # Get the list of services in the Kubernetes cluster
+helm install bitnami/mysql --generate-name
+helm list
+helm uninstall mysql-1725179670
+
+#  Search the Artifact Hub
+helm search hub
+helm search hub wordpress
