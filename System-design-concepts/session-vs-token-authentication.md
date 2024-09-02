@@ -38,5 +38,3 @@ The most important distinction between these two methods is where the authentica
 #### Final Thoughts
 
 Choosing between session-based and token-based authentication depends on your application's needs. Sessions offer simplicity and server-side control, while tokens provide scalability and efficiency for cloud-based applications. Understanding these methods will help you implement the right authentication strategy for your project.
-
-For more in-depth learning, consider checking out web security courses, such as the 12-week Web Security Academy, which offers group-based learning and expert-led modules on topics like Firebase security. Whether you're a beginner or a seasoned developer, continuous learning is key to mastering web security.
