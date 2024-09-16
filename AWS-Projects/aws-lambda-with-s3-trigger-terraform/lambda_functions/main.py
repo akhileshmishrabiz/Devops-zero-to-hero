@@ -4,13 +4,6 @@ import os
 def handler(event, context):
     # Create an S3 client
     s3_client = boto3.client('s3')
-
-    # # Specify the bucket name
-    # bucket_name = 'inbound-bucket-custome'
-
-    # # Specify the prefix (path) within the bucket
-    # prefix = 'incoming/'
-
     bucket_path = os.getenv('BUCKET_PATH')
     print(f'Bucket path: {bucket_path}')
     bucket_name = bucket_path.split('/')[0]
@@ -31,7 +24,6 @@ def handler(event, context):
             date   = filename_path.split('.txt')[0].split('-')[4]
             new_filename = filename_path.split('incoming/')[1]
             new_path = f"{prefix}{year}/{month}/{date}/{new_filename}"
-            
             
             print(f'Filename: {filename_path} and new_filename: {new_path}')
             # Copy the file to the new path

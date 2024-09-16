@@ -28,3 +28,15 @@ variable "subnet_cidr_list" {
 variable "instance_type" {
   default = "t2.micro"
 }
+
+variable "db_name" {
+  description = "The name of the RDS database"
+  type        = string
+  default     = "mydatabase"
+}
+
+variable "db_username" {
+  description = "The username for the RDS database"
+  type        = string
+  default     = "admin"
+}
