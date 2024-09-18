@@ -9,7 +9,7 @@ In this example, we will run a multi-container web application using Flask and P
 
 I have gone through the complete deployment in my blog post:
 
-https://medium.com/@akhilesh-mishra/run-multi-container-web-app-with-docker-compose-8f4ad698e8e9
+https://medium.com/gitconnected/run-multi-container-web-app-with-docker-compose-8f4ad698e8e9
 
 
 # Install docker-compose on Amazon Linux2 
