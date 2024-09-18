@@ -4,7 +4,7 @@ The private EC2 instance will not have a public IP, keeping it isolated from any
 
 We will create a NAT gateway in the public subnet and assign it a static IP(Elastic IP). We will also configure the routes for the private subnet to talk to NAT, enabling the EC2 instance in the private subnet to download the software updates.
 
-**Blog post explaining everything**: https://medium.com/@akhilesh-mishra/devops-101-terraform-on-aws-0b8a71d9eea1
+**Blog post explaining everything**: https://medium.com/@akhilesh-mishra/learning-terraform-on-aws-let-me-show-how-its-done-31e38618ac6c
 
 **Tools used**: AWS and Terraform
 
