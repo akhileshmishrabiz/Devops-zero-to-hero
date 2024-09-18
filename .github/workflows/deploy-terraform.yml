@@ -1,0 +1,53 @@
+name: Terraform Deploy
+# This sets the name of the workflow to "Terraform Deploy"
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  # The workflow is manually triggered (disabled automatic trigger on push to the 'main' branch)
+  workflow_dispatch:
+  # 'workflow_dispatch' allows manually triggering the workflow from the GitHub Actions UI
+
+jobs:
+  terraform:
+    # Defining a job called 'terraform'
+    runs-on: ubuntu-latest
+    # The job will run on the latest Ubuntu runner in GitHub Actions
+
+    env:
+      # Setting environment variables for AWS credentials and region
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      # AWS Access Key ID is securely fetched from GitHub Secrets
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # AWS Secret Access Key is also securely fetched from GitHub Secrets
+      AWS_REGION: ap-south-1
+      # Defining the AWS region for the deployment (set to 'ap-south-1', i.e., Asia Pacific - Mumbai region)
+      TERRAFORM_VER: 1.5.1
+      # Defining the Terraform version (1.5.1) to be used for this deployment
+
+    steps:
+      - name: Checkout Repository
+        # Step to checkout the repository containing the Terraform code
+        uses: actions/checkout@v2
+        # Uses the official GitHub Action for checking out the repository
+
+      - name: Setup Terraform
+        # Step to set up the Terraform CLI on the runner
+        uses: hashicorp/setup-terraform@v1
+        # Uses the official HashiCorp GitHub Action to install Terraform
+        with:
+          terraform_version: ${{ env.TERRAFORM_VER }}
+          # The Terraform version (1.5.1) is fetched from the previously defined environment variable
+
+      - name: Terraform Init
+        # Step to initialize Terraform, downloading the necessary provider plugins and setting up the working directory
+        run: terraform init
+
+      - name: Terraform Plan
+        # Step to run 'terraform plan', which will show the changes Terraform will make without actually applying them
+        run: terraform plan
+
+      - name: Terraform Apply
+        # Step to run 'terraform apply' with the '-auto-approve' flag, which applies the changes automatically without requiring manual approval
+        run: terraform apply -auto-approve
