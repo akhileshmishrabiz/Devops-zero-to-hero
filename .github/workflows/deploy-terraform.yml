@@ -25,6 +25,8 @@ jobs:
       # Defining the AWS region for the deployment (set to 'ap-south-1', i.e., Asia Pacific - Mumbai region)
       TERRAFORM_VER: 1.5.1
       # Defining the Terraform version (1.5.1) to be used for this deployment
+      TERRAFORM_PATH: infra
+      # Path to your Terraform files
 
     steps:
       - name: Checkout Repository
@@ -34,7 +36,7 @@ jobs:
 
       - name: Setup Terraform
         # Step to set up the Terraform CLI on the runner
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         # Uses the official HashiCorp GitHub Action to install Terraform
         with:
           terraform_version: ${{ env.TERRAFORM_VER }}
@@ -42,12 +44,15 @@ jobs:
 
       - name: Terraform Init
         # Step to initialize Terraform, downloading the necessary provider plugins and setting up the working directory
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
 
       - name: Terraform Plan
         # Step to run 'terraform plan', which will show the changes Terraform will make without actually applying them
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform plan
 
       - name: Terraform Apply
         # Step to run 'terraform apply' with the '-auto-approve' flag, which applies the changes automatically without requiring manual approval
+        working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform apply -auto-approve
