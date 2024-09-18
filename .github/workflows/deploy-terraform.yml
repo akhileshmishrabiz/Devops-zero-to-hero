@@ -25,7 +25,7 @@ jobs:
       # Defining the AWS region for the deployment (set to 'ap-south-1', i.e., Asia Pacific - Mumbai region)
       TERRAFORM_VER: 1.5.1
       # Defining the Terraform version (1.5.1) to be used for this deployment
-      TERRAFORM_PATH: infra
+      TERRAFORM_PATH: AWS-Projects/aws-3-tier-architecture-terraform
       # Path to your Terraform files
 
     steps:
