@@ -7,5 +7,5 @@ Whenever we change the Python code, its dependencies, or Dockerfile, GitHub Acti
 
 I have discussed all the details about this project in my blog post on Medium.
 
-https://medium.com/aws-tip/devops-zero-to-hero-4-deploy-a-dockerized-flask-app-on-aws-using-github-action-e5255fc4e0c9
+https://towardsaws.com/continuously-build-deploy-python-web-app-on-aws-with-github-action-a9de1421898c
 
