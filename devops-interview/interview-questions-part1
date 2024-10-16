@@ -1,0 +1,55 @@
+
+Kubernetes and Containers:
+
+1.How do you handle Kubernetes upgrades without causing downtime in production?
+
+* Explain the Kubernetes architecture and its components.
+
+2.How to set up a Kubernetes pod with multiple containers, giving one container full S3 access and another container IAM access.
+
+3.What is the difference between Docker Swarm and Kubernetes?
+4.How will you reduce the Docker image size?
+5.Will data on the container be lost when the Docker container exits.
+
+6.What is a Kubernetes Deployment, and how does it differ from a ReplicaSet?
+Can you explain the concept of self-healing in Kubernetes and provide examples of how it works?
+7.How does Kubernetes handle network communication between containers?
+What is the difference between DaemonSet and StatefulSet?
+8. How does a NodePort service work?
+
+* What strategies would you use to manage secrets in Kubernetes.
+
+* Can you discuss the implications of running privileged containers and how to mitigate the risks?
+* How would you approach monitoring and logging in a Kubernetes environment
+
+* How can horizontal pod autoscaling be implemented in Kubernetes? Provide an example.
+
+* How do you ensure compliance in a DevSecOps pipeline. 
+
+* What are service meshes, and how do they enhance microservices architecture?
+Describe a scenario where you would use admission controllers in Kubernetes.
+
+CI/CD and DevOps Practice :
+
+9.What's the minimum requirement to set up CI/CD pipelines in Azure DevOps using a GitHub source code repository.
+
+10. How do you manage environment-specific configurations in a CI/CD pipeline.
+
+11.How does Jenkins foster collaboration between development and operations teams, and how do you handle conflicts?
+
+12.Explain the blue-green deployment, canary deployment, and rollback processes with real-time scenarios.
+13.What are the advantages and disadvantages of using feature flags in CI/CD
+
+Cloud and Infrastructure:
+
+14.What is meant by geolocation-based routing and latency-based routing, and which AWS service helps in configuring such routing policies? Explain a scenario.
+
+15.What are some best practices for organizing Terraform configurations to ensure they are modular and reusable
+
+16.Explain the Git branching strategy and how it supports collaboration in software development.
+
+17.How would you implement security controls in a CI/CD pipeline.
+
+18. vulnerabilities found during security scans in a continuous delivery pipeline
+
+19. What security considerations do you take into account when using Infrastructure as Code (IaC)How do you secure your IaC templates
