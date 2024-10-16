@@ -1,0 +1,23 @@
+Ever been asked about zero-downtime deployments in an interview? Blue-Green deployment is a strategy that often comes up, but many struggle to explain it clearly.
+
+Here's the gist: you have two identical production environments, dubbed "Blue" and "Green". Only one is live at a time.
+
+How does it work?
+
+1. Blue is currently live, serving all production traffic.
+2. You deploy your new version to Green.
+3. Test Green thoroughly.
+4. Switch the router/load balancer from Blue to Green.
+5. Green is now live and Blue becomes idle.
+
+Why is this powerful?
+
+1. Zero-Downtime: The switch is instantaneous.
+2. Easy Rollback: If issues arise, just switch back to Blue.
+3. Reduced Risk: You can test on a production-like environment before going live.
+
+This approach does require more resources, as you're maintaining two production environments. But for many, the benefits outweigh the costs.
+
+Blue-Green deployment is just one tool in the DevOps toolkit for making releases safer and more reliable. Understanding these strategies can set you apart in interviews and real-world scenarios.
+
+Remember, in DevOps, we're always looking for ways to deploy faster and more safely. Blue-Green deployment helps achieve both!
