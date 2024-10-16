@@ -1,0 +1,18 @@
+Load Balancing Load Balancers: A Common Interview Stumper
+
+Ever wondered how to load balance your load balancers? It's a question that trips up 90% of interviewees, even those who swear by scaling!
+
+Here's the thing: if your app needs to scale horizontally, why wouldn't your load balancers need to do the same? They can't handle infinite requests on their own.
+
+Many folks rely on AWS's Elastic Load Balancers without thinking about why they're "elastic." But what happens when you need to scale beyond a single load balancer?
+
+The solution isn't adding another layer of load balancers - that'd be overkill. Instead, a classic approach is DNS Load Balancing. Here's how it works:
+
+1. Clients use a single domain name (FQDN)
+2. DNS does round-robin distribution across multiple load balancer IPs
+
+This setup allows you to scale your load balancers horizontally, just like your app servers.
+
+Remember, in the real world, every part of your system needs to be scalable - even the parts you might take for granted. Understanding these concepts is crucial, especially in interviews where they're looking for deeper infrastructure knowledge.
+
+So next time someone asks about scaling load balancers, you'll be ready!
