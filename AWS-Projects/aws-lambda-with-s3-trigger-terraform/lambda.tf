@@ -92,7 +92,19 @@ resource "aws_s3_bucket_notification" "lambda_trigger" {
         events              = ["s3:ObjectCreated:*"]
         filter_prefix       = "incoming/"
     }
+    depends_on = [ aws_lambda_permission.allow_s3_to_invoke_lambda ]
 }
+
+# Lambda permissions s3 triger
+resource "aws_lambda_permission" "allow_s3_to_invoke_lambda" {
+  statement_id  = "AllowS3Invoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.my_lambda_function.function_name
+  principal     = "s3.amazonaws.com"
+  source_arn    = "arn:aws:s3:::inbound-bucket-custome"
+}
+
+
 # Attach the IAM policy to the S3 bucket
 resource "aws_s3_bucket_policy" "s3_bucket_policy" {
     bucket = "inbound-bucket-custome"
