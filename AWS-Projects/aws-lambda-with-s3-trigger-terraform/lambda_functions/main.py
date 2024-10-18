@@ -13,30 +13,30 @@ def handler(event, context):
 
     # # List all the files in the specified path
     response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=prefix, Delimiter='/')['Contents']
-    print(response)
 
     try:
     # Iterate over the objects and print their names
         for obj in response:
-            filename_path = obj['Key']
-            year = filename_path.split('.txt')[0].split('-')[2]
-            month = filename_path.split('.txt')[0].split('-')[3]
-            date   = filename_path.split('.txt')[0].split('-')[4]
-            new_filename = filename_path.split('incoming/')[1]
-            new_path = f"{prefix}{year}/{month}/{date}/{new_filename}"
-            
-            print(f'Filename: {filename_path} and new_filename: {new_path}')
-            # Copy the file to the new path
-            s3_client.copy_object(
-                Bucket=bucket_name,
-                CopySource={'Bucket': bucket_name, 'Key': filename_path},
-                Key=new_path
-            )
-            
-            # Delete the original file
-            s3_client.delete_object(Bucket=bucket_name, Key=filename_path)
-            
-            print(f'Moved file: {filename_path} to {new_path}')
+            if obj['Key'] != prefix:
+                filename_path = obj['Key']
+                year = filename_path.split('.txt')[0].split('-')[2]
+                month = filename_path.split('.txt')[0].split('-')[3]
+                date   = filename_path.split('.txt')[0].split('-')[4]
+                new_filename = filename_path.split('incoming/')[1]
+                new_path = f"{prefix}{year}/{month}/{date}/{new_filename}"
+                
+                print(f'Filename: {filename_path} and new_filename: {new_path}')
+                # Copy the file to the new path
+                s3_client.copy_object(
+                    Bucket=bucket_name,
+                    CopySource={'Bucket': bucket_name, 'Key': filename_path},
+                    Key=new_path
+                )
+                
+                # Delete the original file
+                s3_client.delete_object(Bucket=bucket_name, Key=filename_path)
+                
+                print(f'Moved file: {filename_path} to {new_path}')
     except Exception as e:
         print(e)
 
