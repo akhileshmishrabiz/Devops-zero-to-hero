@@ -83,5 +83,117 @@ curl -sLO https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz
 tar -xvf helm-v3.7.1-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin
 }
+
+{
+mkdir -p ~/cloudacademy/observability
+cd ~/cloudacademy/observability
+curl -sL https://api.github.com/repos/cloudacademy/k8s-lab-observability1/releases/latest | \
+ jq -r '.zipball_url' | \
+ wget -qi -
+unzip release* && find -type f -name *.sh -exec chmod +x {} \;
+cd cloudacademy-k8s-lab-observability*
+tree
+}
+
+kubectl create ns cloudacademy
+cd ./code/k8s && ls -la
+kubectl apply -f ./api.yaml
+
+kubectl run api-client \
+ --namespace=cloudacademy \
+ --image=cloudacademydevops/api-generator \
+ --env="API_URL=http://api-service:5000" \
+ --image-pull-policy IfNotPresent
+
+{
+kubectl wait --for=condition=available --timeout=300s deployment/api -n cloudacademy
+kubectl wait --for=condition=ready --timeout=300s pod/api-client -n cloudacademy
+}
+
+
+# install helm
+
+kubectl create ns prometheus
+
+cd ../prometheus && ls -la
+sed -i 's/extraEnv: {}/extraEnv:/g' prometheus.values.yaml
+
+{
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/prometheus \
+ --namespace prometheus \
+ --set alertmanager.persistentVolume.storageClass="gp2" \
+ --set server.persistentVolume.storageClass="gp2" \
+ --values ./prometheus.values.yaml
+}
+
+
+kubectl expose deployment prometheus-server \
+ --namespace prometheus \
+ --name=prometheus-server-loadbalancer \
+ --type=LoadBalancer \
+ --port=80 \
+ --target-port=9090
+
+{
+kubectl wait --for=condition=available --timeout=300s deployment/prometheus-kube-state-metrics -n prometheus
+kubectl wait --for=condition=available --timeout=300s deployment/prometheus-prometheus-pushgateway -n prometheus
+kubectl wait --for=condition=available --timeout=300s deployment/prometheus-server -n prometheus
+}
+
+kubectl get all -n prometheus
+
+{
+PROMETHEUS_ELB_FQDN=$(kubectl get svc -n prometheus prometheus-server-loadbalancer -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+until nslookup $PROMETHEUS_ELB_FQDN >/dev/null 2>&1; do sleep 2 && echo waiting for DNS to propagate...; done
+curl -sD - -o /dev/null $PROMETHEUS_ELB_FQDN/graph
+}
+
+# Note: DNS propagation can take up to 2-5 minutes, please be patient while the propagation proceeds - it will eventually complete.
+
+echo http://$PROMETHEUS_ELB_FQDN
+# access the DNS name to access the Prometheus server
+
+## Install Grafana
+
+cd ../grafana && ls -la
+
+kubectl create ns grafana
+
+{
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm install grafana grafana/grafana \
+ --namespace grafana \
+ --set persistence.storageClassName="gp2" \
+ --set persistence.enabled=true \
+ --set adminPassword="EKS:l3t5g0" \
+ --set service.type=LoadBalancer \
+ --values ./grafana.values.yaml
+}
+
+kubectl wait --for=condition=available --timeout=300s deployment/grafana -n grafana 
+
+kubectl get all -n grafana
+
+# Confirm that the Grafana ELB FQDN has propagated and resolves. In the terminal run the following commands:
+
+{
+GRAFANA_ELB_FQDN=$(kubectl get svc -n grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+until nslookup $GRAFANA_ELB_FQDN >/dev/null 2>&1; do sleep 2 && echo waiting for DNS to propagate...; done
+curl -I $GRAFANA_ELB_FQDN/login
+}
+
+echo http://$GRAFANA_ELB_FQDN
+
+# Email or username: admin
+
+# Password: EKS:l3t5g0  (or you can get the value from secret)
+
+
+
+
 ```
+
    
