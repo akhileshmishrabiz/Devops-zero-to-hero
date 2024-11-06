@@ -75,7 +75,7 @@ kubectl get nodes
 kubectl describe nodes
 
 ##### Install helm ######
-```
+``` sh
 {
 curl -sLO https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz
 tar -xvf helm-v3.7.1-linux-amd64.tar.gz
