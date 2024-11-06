@@ -46,4 +46,40 @@ eksctl create cluster --name my-cluster --region region-code
 or use Fargate
 eksctl create cluster --name my-cluster --region region-code --fargate
 
+
+##### Connect to cluser from a VM (ec2)    #######
+# install kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo cp ./kubectl /usr/local/bin
+export PATH=/usr/local/bin:$PATH
+kubectl version --client=true
+
+# install aws cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+# attach a iam profile for access to eks
+
+# get cluster info
+EKS_CLUSTER_NAME=$(aws eks list-clusters --region us-west-2 --query clusters[0] --output text)
+echo $EKS_CLUSTER_NAME
+
+aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region us-west-2
+cat ~/.kube/config
+
+# run kubectl commands
+kubectl get nodes 
+kubectl describe nodes
+
+##### Install helm ######
+```
+{
+curl -sLO https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz
+tar -xvf helm-v3.7.1-linux-amd64.tar.gz
+sudo mv linux-amd64/helm /usr/local/bin
+}
+```
    
