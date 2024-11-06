@@ -74,6 +74,7 @@ cat ~/.kube/config
 kubectl get nodes 
 kubectl describe nodes
 
+```
 ##### Install helm ######
 ``` sh
 {
