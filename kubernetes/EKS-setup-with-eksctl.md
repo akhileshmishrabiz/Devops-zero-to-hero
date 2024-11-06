@@ -45,9 +45,10 @@ eksctl create cluster --name my-cluster --region region-code
 
 or use Fargate
 eksctl create cluster --name my-cluster --region region-code --fargate
-
+```
 
 ##### Connect to cluser from a VM (ec2)    #######
+```sh
 # install kubectl
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
 chmod +x ./kubectl
