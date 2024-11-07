@@ -191,9 +191,15 @@ echo http://$GRAFANA_ELB_FQDN
 
 # Password: EKS:l3t5g0  (or you can get the value from secret)
 
-
-
-
 ```
+Import the dashboard 3119 and see how it looks.
 
+now use the 
+
+ Open a new browser tab and navigate to the following sample API monitoring dashboard URL:
+
+https://raw.githubusercontent.com/cloudacademy/k8s-lab-observability1/main/code/grafana/dashboard.json
+, opens in a new tab
+
+Note: The same dashboard.json file is located in the project directory (./code/grafana/dashboard.json) and can be copied directly from there if easier.
    
