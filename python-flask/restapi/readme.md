@@ -1,7 +1,10 @@
 # Backend with flask
-locally running db(postgres) container
 
+## locally running db(postgres) container
 
+docker run --name flask_postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres -p 5432:5432 -d postgres
+
+pip install -r requirements.txt
 
 # Front end with react
 Add below to flask app before going forward
