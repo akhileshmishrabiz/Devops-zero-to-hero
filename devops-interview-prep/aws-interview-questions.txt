@@ -1,3 +1,30 @@
+Part 1:
+
+1. What is the purpose of a NAT gateway, and what are some of its use cases?
+2. How do you decide which load balancer is best suited for an application?
+3. What are the key features of the Nginx service?
+4. What are the differences between a Network Load Balancer and an Application Load Balancer?
+5. Why is a DynamoDB table used to lock the Terraform state file?
+6. How can we manage the Terraform state file effectively?
+7. If you encounter an error with the `terraform plan` command, how would you troubleshoot it? What steps would you take?
+8. What stages are available in a Jenkins pipeline? How do you configure a webhook for auto-triggering builds?
+9. What DevSecOps tools have you used? How do you secure applications using these tools?
+10. How do you manage secrets in a Jenkins pipeline?
+11. How do you deploy a microservices application so that each service remains isolated?
+12. In a Dockerfile, what are the use cases for the `COPY` and `ADD` commands?
+13. Write a Dockerfile for a Node.js application, including the build and run commands.
+14. Briefly explain Kubernetes architecture, covering each component and its use case.
+15. How do you manage connectivity between multiple pods in a Kubernetes cluster?
+16. How do worker nodes communicate with the control plane (master node)?
+17. How can we increase the capacity of pods using the CLI (command line interface)?
+18. What are the use cases of EKS (Elastic Kubernetes Service)?
+19. If a new version fails, how would you roll it back?
+20. What is an Ansible playbook, and how does it work? How does Ansible handle variables differently from playbooks?
+21. How do you configure Grafana and Prometheus for monitoring?
+22. What steps would you take if an EC2 instance runs out of memory? Are there specific strategies you'd try first to increase its capacity?
+23. What are the major challenges you've faced in your role? 
+
+Part 2: 
 1. What are your daily responsibilities as a DevOps engineer?
 2. Which DevOps tools are you proficient with?
 3. Can you describe the CI/CD workflow in your project?
@@ -88,3 +115,25 @@ Part 2:
 54. How do you install Nginx in the Ansible playbook?
 55. How do you recover the deleted object in S3?
 
+# part3: CI/CD and DevOps Practice
+
+1. What's the minimum requirement to set up CI/CD pipelines in Azure DevOps using a GitHub source code repository.
+2. How do you manage environment-specific configurations in a CI/CD pipeline.
+3. How does Jenkins foster collaboration between development and operations teams, and how do you handle conflicts?
+4. Explain the blue-green deployment, canary deployment, and rollback processes with real-time scenarios.
+5. What are the advantages and disadvantages of using feature flags in CI/CD
+6. How do you ensure compliance in a DevSecOps pipeline. 
+
+# Part 4: Cloud and Infrastructure:
+
+1. What is meant by geolocation-based routing and latency-based routing, and which AWS service helps in configuring such routing policies? Explain a scenario.
+
+2. What are some best practices for organizing Terraform configurations to ensure they are modular and reusable
+
+3. Explain the Git branching strategy and how it supports collaboration in software development.
+
+4. How would you implement security controls in a CI/CD pipeline.
+
+5. vulnerabilities found during security scans in a continuous delivery pipeline
+
+6. What security considerations do you take into account when using Infrastructure as Code (IaC)How do you secure your IaC templates
