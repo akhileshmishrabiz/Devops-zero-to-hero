@@ -62,7 +62,7 @@ Creating pull requests with improvements
 Sharing additional learning resources
 
 📝 License
-[Add your license here]
+[https://github.com/akhileshmishrabiz/Devops-zero-to-hero/blob/main/LICENSE]
 
 ✨ Connect
 
