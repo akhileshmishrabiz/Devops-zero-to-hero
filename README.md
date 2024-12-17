@@ -66,9 +66,13 @@ Sharing additional learning resources
 ✨ Connect
 
 [LinkedIn profile: https://www.linkedin.com/in/akhilesh-mishra-0ab886124/]
+
 [Topmate: https://topmate.io/akhilesh_mishra/ ]
+
 [Twitter: https://x.com/livingdevops]
+
 [Medium: https://medium.com/@akhilesh-mishra ]
+
 [Website: https://livingdevops.com ]
 
 
