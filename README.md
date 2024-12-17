@@ -25,6 +25,10 @@ A comprehensive collection of DevOps resources, projects, and learning materials
 - Technical scenarios
 - Best practices and real-world examples
 
+### Python for DevOps
+- DevOps automation scripts with AWS
+- DevOps automation scripts with GCP
+- 
 ### Python Projects
 - Flask REST API implementations
 - DevOps automation scripts
@@ -45,6 +49,7 @@ A comprehensive collection of DevOps resources, projects, and learning materials
 1. Clone the repository
 ```bash
 git clone https://github.com/akhileshmishrabiz/devops-learning.git
+```
 
 Navigate to specific sections based on your learning goals
 Each directory contains its own documentation and examples
@@ -60,9 +65,12 @@ Sharing additional learning resources
 [Add your license here]
 ✨ Connect
 
-[**My LinkedIn profile** https://www.linkedin.com/in/akhilesh-mishra-0ab886124/]
-[[Add your Twitter](https://x.com/livingdevops)]
-[**My Medium profile:** https://medium.com/@akhilesh-mishra ]
+[LinkedIn profile: https://www.linkedin.com/in/akhilesh-mishra-0ab886124/]
+[Topmate: https://topmate.io/akhilesh_mishra/ ]
+[Twitter: https://x.com/livingdevops]
+[Medium: https://medium.com/@akhilesh-mishra ]
+[Website: https://livingdevops.com ]
+
 
 
 
