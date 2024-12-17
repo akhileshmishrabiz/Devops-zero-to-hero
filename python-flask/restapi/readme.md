@@ -1,66 +1,72 @@
-# Backend with flask
-
-## locally running db(postgres) container
-
+# -> Write a simple flask app using crud. for tsting it will use a postgres container running locally.
 docker run --name flask_postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres -p 5432:5432 -d postgres
+-> build the DB URI that flask app will use to connect 
 
-pip install -r requirements.txt
+# SQLALCHEMY_DATABASE_URI = f'postgresql://{postgres_username}:{postgres_password}@{db_host}:{db_port}/{db_name}'
 
-# Front end with react
-Add below to flask app before going forward
-To use this frontend, you'll need to:
+mkdir app.py requirements.txt 
+requirements.txt -> dependencies here
+app.py -> flask app code here. 
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost:5432/postgres'
 
-Make sure your Flask backend is running on port 5000
-Enable CORS on your Flask backend by adding:
+Install the dependencies  and copy the code to app.py
 
+1. make a post request to the app.
+curl -X POST http://127.0.0.1:5000/books \
+-H "Content-Type: application/json" \
+-d '{"title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "price": 9.99}'
 
-from flask_cors import CORS
-
-app = Flask(__name__)
-
-CORS(app)  # Add this line after creating the Flask app
-
-Install dependencies
-
-pip install flask-cors  # For backend
-
-Why we need cors
-
-CORS (Cross-Origin Resource Sharing) is needed because of the browser's Same-Origin Policy, which is a critical security feature. Let me explain step by step:
-
-In our current setup:
-
-Frontend is running on http://localhost:3000 (React's default port)
-
-Backend is running on http://localhost:5000 (Flask's default port)
-
-Even though both are on 'localhost', they're considered different origins because of different ports
+curl -X POST http://127.0.0.1:5000/books \
+-H "Content-Type: application/json" \
+-d '{ "title": "To Kill a Mockingbird", "author": "Harper Lee", "price": 11.99 }'
 
 
-The Same-Origin Policy:
+2. List all the books
+curl http://127.0.0.1:5000/books
 
-By default, browsers block web pages from making requests to a different domain/origin
+3. List specfic book
+curl http://127.0.0.1:5000/books/1
 
-This protects users from malicious websites trying to access APIs on other domains
+4. update the book entry
+curl -X PUT http://127.0.0.1:5000/books/1 \
+-H "Content-Type: application/json" \
+-d '{"price": 14.99}'
 
-Without CORS, our frontend couldn't make API calls to our backend
+5. Delete
+curl -X DELETE http://127.0.0.1:5000/books/3
 
-We're telling the server to add specific headers to its responses:
+6. bulk create
+curl -X POST http://127.0.0.1:5000/books/bulk \
+-H "Content-Type: application/json" \
+-d '[
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "price": 9.99
+  },
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "price": 12.99
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "price": 11.99
+  }
+]'
 
-- Access-Control-Allow-Origin: * (allows requests from any origin)
-
-- Access-Control-Allow-Methods: GET, POST, PUT, DELETE
-
-- Access-Control-Allow-Headers: Content-Type
-
-
-
-# -> In production 
-
-You typically want to restrict CORS to specific origins rather than using *
-
-You can configure it like this:
-
-CORS(app, origins=['https://your-frontend-domain.com'])
-
-
+7. Bulk update
+curl -X PUT http://127.0.0.1:5000/books/bulk-update \
+-H "Content-Type: application/json" \
+-d '[
+  {
+    "id": 5,
+    "price": 14.99
+  },
+  {
+    "id": 6,
+    "price": 15.99,
+    "author": "George Orwell (Updated)"
+  }
+]'
