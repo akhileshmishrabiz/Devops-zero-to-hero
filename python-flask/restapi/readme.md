@@ -1,3 +1,7 @@
+## Blog post
+
+[https://medium.com/gitconnected/a-beginners-guide-to-rest-apis-build-your-first-crud-app-31b4cfacf128]
+
 # -> Write a simple flask app using crud. for tsting it will use a postgres container running locally.
 docker run --name flask_postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres -p 5432:5432 -d postgres
 -> build the DB URI that flask app will use to connect 
