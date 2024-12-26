@@ -1,0 +1,5 @@
+region ="base-region"
+subnetwork_name="base-subnet"
+vpc_name="base-vpc"
+project_id ="someproject"
+subnet_cidr= "10.0.0.0/24"
