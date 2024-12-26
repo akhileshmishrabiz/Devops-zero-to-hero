@@ -1,0 +1,37 @@
+Ques 1: How to handle provider API rate limiting?
+
+Ans: To handle provider API rate limiting in Terraform, you can use exponential backoff settings in the provider block (e.g., `retry_max_attempts` and `retry_mode = "exponential"`) 
+     and implement sleep intervals using `time_sleep` resource between resource creation. 
+     Additionally, you can split your infrastructure into smaller deployments to reduce concurrent API calls.
+
+Ques 2: How to recovere from a corrupted state file
+Ans: Here's how to recover from a corrupted Terraform state file:
+
+    If you have a backup state file (from version control or backup system), simply replace the corrupted state file with the backup. If using remote state storage like S3, you can restore from a previous version.
+    
+    If no backup exists:
+    1. Run `terraform refresh` to update state with real infrastructure state
+    2. Use `terraform import` to bring existing resources back under Terraform management
+    3. Systematically verify each resource and import them one by one
+    
+    Pro tip: Always enable versioning on your remote state storage (like S3) and maintain regular backups to prevent data loss in such scenarios.
+
+Ques 3: How to Migrate from one backend to another
+Ans: To migrate backend or upgrade provider/Terraform versions:
+    1. Pull current state: `terraform state pull > terraform.tfstate`
+    2. Update backend config or version constraints in code
+    3. Run `terraform init -upgrade -migrate-state` and confirm when prompted
+    
+    The `-upgrade` flag ensures all providers are updated to latest versions meeting your constraints, while `-migrate-state` handles backend migration.
+
+Ques 4: How do I ensure I don't accidentally delete something in Terraform?
+Ans: Use `prevent_destroy = true` in lifecycle blocks to protect critical resources from accidental deletion. Always run `terraform plan` before applying and carefully review the planned changes, especially deletions. 
+     For critical infrastructure, use separate state files and implement strict access controls through IAM roles. Set up mandatory code reviews in your CI/CD pipeline for any infrastructure changes.
+
+Ques 5: How do I handle state drift in Terraform?
+Ans: Regularly run `terraform plan` in your CI/CD pipeline to detect differences between code and actual infrastructure. When manual changes are made, use `terraform import` to bring resources under Terraform management, or `terraform refresh` to update state. 
+     Set up automated drift detection and alerts for unauthorized changes. Always document emergency manual changes and have a process to sync them back to code.
+
+Ques 6: What are the benefits of organizing a Terraform project using modules/workspaces?
+Ans: Modules enable code reuse by creating standardized infrastructure templates that can be shared across teams and projects. Workspaces help manage multiple environments (dev, staging, prod) with the same code while keeping their states separate - reducing duplication and ensuring consistency. 
+     This structure makes it easier to maintain large infrastructure, enforce standards, and make global changes efficiently. The combination also improves collaboration as teams can work on different modules independently.

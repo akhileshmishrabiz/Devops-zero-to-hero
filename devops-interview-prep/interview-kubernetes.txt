@@ -1,0 +1,20 @@
+
+Kubernetes and Containers:
+
+1. How do you handle Kubernetes upgrades without causing downtime in production?
+2. Explain the Kubernetes architecture and its components.
+3. How to set up a Kubernetes pod with multiple containers, giving one container full S3 access and another container IAM access.
+4. What is the difference between Docker Swarm and Kubernetes?
+5. How will you reduce the Docker image size?
+6. Will data on the container be lost when the Docker container exits.
+7. What is a Kubernetes Deployment, and how does it differ from a ReplicaSet?
+8. Can you explain the concept of self-healing in Kubernetes and provide examples of how it works?
+9. How does Kubernetes handle network communication between containers?
+10. What is the difference between DaemonSet and StatefulSet?
+11. How does a NodePort service work?
+12. What strategies would you use to manage secrets in Kubernetes.
+13. Can you discuss the implications of running privileged containers and how to mitigate the risks?
+14. How would you approach monitoring and logging in a Kubernetes environment
+15. How can horizontal pod autoscaling be implemented in Kubernetes? Provide an example.
+16. What are service meshes, and how do they enhance microservices architecture?
+17. Describe a scenario where you would use admission controllers in Kubernetes.
