@@ -240,6 +240,8 @@ This document provides a categorized list of 100 commonly used Linux commands, o
 - `fail2ban-client set jail unbanip IP` - Unban an IP address.
 
 
+######  Used for more of a Linux admin roles, not that much for DevOps ####
+
 ## 💾 Disk and Storage Management 💾
 
 ### Simple
