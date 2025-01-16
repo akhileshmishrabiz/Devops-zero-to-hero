@@ -8,14 +8,31 @@ docker run --name flask_postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=
 
 # SQLALCHEMY_DATABASE_URI = f'postgresql://{postgres_username}:{postgres_password}@{db_host}:{db_port}/{db_name}'
 
-mkdir app.py requirements.txt 
+mkdir demo-flask-api
+
+touch app.py requirements.txt 
+
 requirements.txt -> dependencies here
+
 app.py -> flask app code here. 
+
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost:5432/postgres'
 
 Install the dependencies  and copy the code to app.py
 
+
+python3 -m venv # creating a VIRTUAL ENV
+
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+python app.py
+
+
+
 1. make a post request to the app.
+   
 curl -X POST http://127.0.0.1:5000/books \
 -H "Content-Type: application/json" \
 -d '{"title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "price": 9.99}'
