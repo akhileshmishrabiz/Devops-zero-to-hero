@@ -72,6 +72,36 @@
 * Data Processing - Making API calls, manipulating JSON data, and handling file operations
 * Automation - Creating automation scripts using cloud provider SDKs
 
+## Learning Resources
+
+### Youtube Resources
+* [Best DevOps Resources to Learn DevOps](https://livingdevops.com/devops/best-devops-resources-to-learn-devops/)
+
+### GitHub Resources
+* [DevOps Zero to Hero](https://github.com/akhileshmishrabiz/Devops-zero-to-hero)
+* [Python for DevOps](https://github.com/akhileshmishrabiz/python-for-devops)
+* [Web App on AWS ECS](https://github.com/akhileshmishrabiz/web-app-on-aws-ecs)
+* [Flask App on AWS EC2](https://github.com/akhileshmishrabiz/flaskapp-awsec2)
+
+### Simple DevOps Projects
+
+#### Basic Projects
+* [Build Your First API with Complete CRUD Operations](https://livingdevops.com/python/build-your-first-api-with-complete-crud-operations/)
+* [Deploy AWS Lambda Function with S3 Trigger using Terraform](https://awstip.com/terraform-to-deploy-aws-lambda-function-with-s3-trigger-4c8e231d5f0c?sk=d0ac19b8c5c0316a6aed535d9f461090)
+* [Connect EC2 to S3 via Private Network with VPC Gateway Endpoint](https://awstip.com/securely-connect-ec2-instances-to-s3-buckets-via-private-network-with-vpc-gateway-endpoint-78e03356a9e7?sk=575902d3c8ed33bd18390165e9bf13ab)
+
+#### Intermediate Projects
+* [Learning Terraform on AWS - Complete Guide](https://towardsaws.com/learning-terraform-on-aws-let-me-show-how-its-done-31e38618ac6c?sk=0a3c6252f2917a175f8813ab6b25432e)
+* [CI/CD Python Web App on AWS with GitHub Actions](https://towardsaws.com/continuously-build-deploy-python-web-app-on-aws-with-github-action-a9de1421898c?sk=9be65762df1f58070460ee26bd291a65)
+* [Multi-Container Web App with Docker Compose](https://levelup.gitconnected.com/run-multi-container-web-app-with-docker-compose-8f4ad698e8e9?sk=5aead1507d204769ac49e1ac1ca66c47)
+
+#### Advanced Topics
+* [Comprehensive Docker Guide](https://livingdevops.com/devops/everything-you-need-to-know-about-docker/)
+* [Using Terraform Functions](https://livingdevops.com/terraform/how-to-use-terraform-functions/)
+* [Migrating RDS Postgres Database with Python](https://livingdevops.com/devops/migrating-rds-postgres-database-with-python/)
+* [Python Lambda Layers with Terraform & GitHub Actions](https://livingdevops.com/devops/python-lambda-layers-with-terraform-github-actions/)
+
+
 ## Good-to-Have Skills
 
 ### 1. Configuration Management
@@ -141,31 +171,3 @@
 
 This guide represents the core and supplementary skills needed for DevOps professionals in 2025. Focus on mastering the must-have skills first, then gradually incorporate good-to-have skills based on your specific role and organizational needs.
 
-## Learning Resources
-
-### Youtube Resources
-* [Best DevOps Resources to Learn DevOps](https://livingdevops.com/devops/best-devops-resources-to-learn-devops/)
-
-### GitHub Resources
-* [DevOps Zero to Hero](https://github.com/akhileshmishrabiz/Devops-zero-to-hero)
-* [Python for DevOps](https://github.com/akhileshmishrabiz/python-for-devops)
-* [Web App on AWS ECS](https://github.com/akhileshmishrabiz/web-app-on-aws-ecs)
-* [Flask App on AWS EC2](https://github.com/akhileshmishrabiz/flaskapp-awsec2)
-
-### Simple DevOps Projects
-
-#### Basic Projects
-* [Build Your First API with Complete CRUD Operations](https://livingdevops.com/python/build-your-first-api-with-complete-crud-operations/)
-* [Deploy AWS Lambda Function with S3 Trigger using Terraform](https://awstip.com/terraform-to-deploy-aws-lambda-function-with-s3-trigger-4c8e231d5f0c?sk=d0ac19b8c5c0316a6aed535d9f461090)
-* [Connect EC2 to S3 via Private Network with VPC Gateway Endpoint](https://awstip.com/securely-connect-ec2-instances-to-s3-buckets-via-private-network-with-vpc-gateway-endpoint-78e03356a9e7?sk=575902d3c8ed33bd18390165e9bf13ab)
-
-#### Intermediate Projects
-* [Learning Terraform on AWS - Complete Guide](https://towardsaws.com/learning-terraform-on-aws-let-me-show-how-its-done-31e38618ac6c?sk=0a3c6252f2917a175f8813ab6b25432e)
-* [CI/CD Python Web App on AWS with GitHub Actions](https://towardsaws.com/continuously-build-deploy-python-web-app-on-aws-with-github-action-a9de1421898c?sk=9be65762df1f58070460ee26bd291a65)
-* [Multi-Container Web App with Docker Compose](https://levelup.gitconnected.com/run-multi-container-web-app-with-docker-compose-8f4ad698e8e9?sk=5aead1507d204769ac49e1ac1ca66c47)
-
-#### Advanced Topics
-* [Comprehensive Docker Guide](https://livingdevops.com/devops/everything-you-need-to-know-about-docker/)
-* [Using Terraform Functions](https://livingdevops.com/terraform/how-to-use-terraform-functions/)
-* [Migrating RDS Postgres Database with Python](https://livingdevops.com/devops/migrating-rds-postgres-database-with-python/)
-* [Python Lambda Layers with Terraform & GitHub Actions](https://livingdevops.com/devops/python-lambda-layers-with-terraform-github-actions/)
