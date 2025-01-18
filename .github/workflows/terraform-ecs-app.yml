@@ -52,3 +52,6 @@ jobs:
       #   # Step to run 'terraform apply' with the '-auto-approve' flag, which applies the changes automatically without requiring manual approval
       #   working-directory: ${{ env.TERRAFORM_PATH }}
       #   run: terraform apply -auto-approve
+      - name: terraform destroy
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform destroy -auto-approve
