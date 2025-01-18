@@ -3,8 +3,8 @@ resource "aws_db_instance" "postgres" {
   identifier            = "${var.environment}-${var.app_name}-db"
   allocated_storage     = var.db_default_settings.allocated_storage
   max_allocated_storage = var.db_default_settings.max_allocated_storage
-  engine                = data.aws_rds_engine_version.postgresql.engine
-  engine_version        = var.db_default_settings.engine_version
+  engine                = "postgres"
+  engine_version        = 14.15
   instance_class        = var.db_default_settings.instance_class
   username              = var.db_default_settings.db_admin_username
   password              = random_password.dbs_random_string.result
@@ -22,7 +22,7 @@ resource "aws_db_instance" "postgres" {
   backup_retention_period         = var.db_default_settings.backup_retention_period
   db_name                         = var.db_default_settings.db_name
   auto_minor_version_upgrade      = true
-  deletion_protection             = true
+  deletion_protection             = false
   copy_tags_to_snapshot           = true
 
   tags = {
@@ -31,11 +31,11 @@ resource "aws_db_instance" "postgres" {
 }
 
 resource "aws_secretsmanager_secret" "db_link" {
-  name                    = "db/${var.environment}-${aws_db_instance.postgres.identifier}"
+  name                    = "db/${aws_db_instance.postgres.identifier}"
   description             = "DB link"
   kms_key_id              = aws_kms_key.rds_kms.arn
   recovery_window_in_days = 7
-  lifecycle {
+  lifecycle {   
     create_before_destroy = true
   }
 }

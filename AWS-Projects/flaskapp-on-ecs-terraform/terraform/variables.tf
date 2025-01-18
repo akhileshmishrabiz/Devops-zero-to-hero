@@ -21,7 +21,7 @@ variable "db_default_settings" {
   default = {
     allocated_storage       = 30
     max_allocated_storage   = 50
-    engine_version          = "14.10"
+    engine_version          = 14.15
     instance_class          = "db.t3.micro"
     backup_retention_period = 2
     db_name                 = "postgres"
@@ -48,7 +48,7 @@ variable "flask_app_memory" {
 variable "flask_app_template_file" {
   description = "Template file for the flask-app service"
   type        = string
-  default     = "task-definitions/flask-service.json.tpl"
+  default     = "flask-service.json.tpl"
 }
 
 variable "flask_app_tag" {

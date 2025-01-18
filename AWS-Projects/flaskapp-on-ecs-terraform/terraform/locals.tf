@@ -1,14 +1,4 @@
 locals {
-  # db_data = {
-  #   allocated_storage       = "30"
-  #   max_allocated_storage   = 100
-  #   engine_version          = "14.10"
-  #   instance_class          = "db.t3.small"
-  #   ca_cert_name            = "rds-ca-rsa2048-g1"
-  #   backup_retention_period = 7
-  #   db_name                 = "mydb"
-  #   cloudwatch_logs         = ["postgresql", "upgrade"]
-  # }
 
   flask_ecs_services_vars = {
     aws_ecr_repository            = aws_ecr_repository.flask_app.repository_url
@@ -20,27 +10,27 @@ locals {
     db_link_secret                = aws_secretsmanager_secret.db_link.id
   }
 
-  # app_deploy_data = {
-  #   IMAGE_NAME : "${var.app_name}-image"
-  #   ECR_REGISTRY : "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com"
-  #   ECR_REPOSITORY : "${var.environment}-${var.app_name}"
-  #   ACCOUNT_ID : data.aws_caller_identity.current.account_id
-  #   ECS_CLUSTER : "${var.environment}-${var.app_name}-cluster"
-  #   ECS_REGION : data.aws_region.current.name
-  #   ECS_SERVICE : "${var.environment}-${var.app_name}-service"
-  #   ECS_TASK_DEFINITION : "${var.environment}-${var.app_name}-flask"
-  #   ECS_APP_CONTAINER_NAME : var.flask_app_container_name
+  app_deploy_data = {
+    IMAGE_NAME : "${var.app_name}-image"
+    ECR_REGISTRY : "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com"
+    ECR_REPOSITORY : "${var.environment}-${var.app_name}"
+    ACCOUNT_ID : data.aws_caller_identity.current.account_id
+    ECS_CLUSTER : "${var.environment}-${var.app_name}-cluster"
+    ECS_REGION : data.aws_region.current.name
+    ECS_SERVICE : "${var.environment}-${var.app_name}-service"
+    ECS_TASK_DEFINITION : "${var.environment}-${var.app_name}-flask"
+    ECS_APP_CONTAINER_NAME : var.flask_app_container_name
 
-  # }
+  }
 }
 
 
-# resource "aws_secretsmanager_secret" "app_deploy_data" {
-#   name        = "${var.environment}-${var.app_name}-deploy-data"
-#   description = "Deployment data for the Flask app"
-# }
+resource "aws_secretsmanager_secret" "app_deploy_data" {
+  name        = "${var.environment}-${var.app_name}-deploy-data"
+  description = "Deployment data for the Flask app"
+}
 
-# resource "aws_secretsmanager_secret_version" "app_deploy_data_version" {
-#   secret_id     = aws_secretsmanager_secret.app_deploy_data.id
-#   secret_string = jsonencode(local.flask_deploy_data)
-# }
+resource "aws_secretsmanager_secret_version" "app_deploy_data_version" {
+  secret_id     = aws_secretsmanager_secret.app_deploy_data.id
+  secret_string = jsonencode(local.flask_deploy_data)
+}
