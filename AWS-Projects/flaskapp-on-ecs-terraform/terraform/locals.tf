@@ -8,6 +8,7 @@ locals {
     database_url                  = "postgresql://${aws_db_instance.postgres.username}:${random_password.dbs_random_string.result}@${aws_db_instance.postgres.address}:${aws_db_instance.postgres.port}/${aws_db_instance.postgres.db_name}"
     environment                   = var.environment
     db_link_secret                = aws_secretsmanager_secret.db_link.id
+    db_host                       = aws_db_instance.postgres.address
   }
 
   app_deploy_data = {

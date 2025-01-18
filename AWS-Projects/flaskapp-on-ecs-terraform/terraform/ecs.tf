@@ -38,7 +38,7 @@ resource "aws_ecs_service" "flask_app_service" {
   }
 
   depends_on = [
-    aws_lb_listener.https_forward,
+    # aws_lb_listener.https_forward,
     aws_iam_role_policy.ecs_task_execution_role,
   ]
 

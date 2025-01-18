@@ -34,6 +34,10 @@
       {
         "name": "DB_LINK",
         "value": "${db_link_secret}"
+      },
+      {
+        "name": "DB_HOST",
+        "value": "${db_host}"
       }
     ]
   }
