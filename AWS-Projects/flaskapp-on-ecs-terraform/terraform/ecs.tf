@@ -7,13 +7,13 @@ resource "aws_ecs_task_definition" "services" {
   family                   = "${var.environment}-${var.app_name}"
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  cpu                      = local.flask_app_cpu
-  memory                   = local.flask_app_memory
+  cpu                      = var.flask_app_cpu
+  memory                   = var.flask_app_memory
   requires_compatibilities = ["FARGATE"]
   container_definitions    = data.template_file.services.rendered
   tags = {
     Environment = var.environment
-    Application = each.key
+    Application = var.app_name
   }
 }
 

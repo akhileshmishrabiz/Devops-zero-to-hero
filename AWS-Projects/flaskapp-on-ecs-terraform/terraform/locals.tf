@@ -32,5 +32,5 @@ resource "aws_secretsmanager_secret" "app_deploy_data" {
 
 resource "aws_secretsmanager_secret_version" "app_deploy_data_version" {
   secret_id     = aws_secretsmanager_secret.app_deploy_data.id
-  secret_string = jsonencode(local.flask_deploy_data)
+  secret_string = jsonencode(local.app_deploy_data)
 }
