@@ -1,0 +1,8 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.5
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
+boto3==1.34.34
+botocore==1.34.34
+aws-xray-sdk==2.12.1    

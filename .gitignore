@@ -3,3 +3,9 @@
 .terraform/*
 *.terraform
 .terraform.lock.hcl
+
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store

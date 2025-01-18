@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log
+logs/
+log/
+
+# Local development
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+
+# Documentation
+docs/
+*.md
+LICENSE
+
+# Tests
+tests/
+test/
+coverage/
+.coverage
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

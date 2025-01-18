@@ -1,0 +1,54 @@
+# Deploy Terraform Infrastructure for ECS Application
+name: flaskapp-on-ecs-terraform infra deploy
+# This sets the name of the workflow to "Terraform Deploy"
+
+on:
+  push:
+    branches:
+      - main
+  paths:
+    - 'AWS-Projects/flaskapp-on-ecs-terraform/terraform/**'
+  workflow_dispatch:
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      # AWS Access Key ID is securely fetched from GitHub Secrets
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # AWS Secret Access Key is also securely fetched from GitHub Secrets
+      AWS_REGION: ap-south-1
+      # Defining the AWS region for the deployment (set to 'ap-south-1', i.e., Asia Pacific - Mumbai region)
+      TERRAFORM_VER: 1.8.1
+      # Defining the Terraform version (1.8.1) to be used for this deployment
+      TERRAFORM_PATH: AWS-Projects/flaskapp-on-ecs-terraform/terraform
+      # Path to your Terraform files
+
+    steps:
+      - name: Checkout Repository
+        # Step to checkout the repository containing the Terraform code
+        uses: actions/checkout@v3
+        # Uses the official GitHub Action for checking out the repository
+
+      - name: Setup Terraform
+        # Step to set up the Terraform CLI on the runner
+        uses: hashicorp/setup-terraform@v3
+        # Uses the official HashiCorp GitHub Action to install Terraform
+        with:
+          terraform_version: ${{ env.TERRAFORM_VER }}
+          # The Terraform version (1.5.1) is fetched from the previously defined environment variable
+
+      - name: Terraform Init
+        # Step to initialize Terraform, downloading the necessary provider plugins and setting up the working directory
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform init
+
+      - name: Terraform Plan
+        # Step to run 'terraform plan', which will show the changes Terraform will make without actually applying them
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform plan
+
+      # - name: Terraform Apply
+      #   # Step to run 'terraform apply' with the '-auto-approve' flag, which applies the changes automatically without requiring manual approval
+      #   working-directory: ${{ env.TERRAFORM_PATH }}
+      #   run: terraform apply -auto-approve
