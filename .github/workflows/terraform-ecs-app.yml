@@ -6,8 +6,8 @@ on:
   push:
     branches:
       - main
-  paths:
-    - 'AWS-Projects/flaskapp-on-ecs-terraform/terraform/**'
+    paths:
+      - 'AWS-Projects/flaskapp-on-ecs-terraform/terraform/**'
   workflow_dispatch:
 jobs:
   terraform:
