@@ -42,10 +42,15 @@ jobs:
         # Step to initialize Terraform, downloading the necessary provider plugins and setting up the working directory
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
-        
+
       - name: Terraform formatting check
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform fmt -check
+      - name: Terraform checkov
+        uses: bridgecrewio/checkov-action@v12 
+        with:
+          directory: ${{ env.TERRAFORM_PATH }}
+          skip_check: CKV_AWS_2 # optional: skip specific check_id. can be comma separated list
 
       - name: Terraform Plan
         # Step to run 'terraform plan', which will show the changes Terraform will make without actually applying them
