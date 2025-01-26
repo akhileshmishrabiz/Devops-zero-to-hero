@@ -42,7 +42,8 @@ jobs:
         # Step to initialize Terraform, downloading the necessary provider plugins and setting up the working directory
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
-      -name: Terraform formatting check
+        
+      - name: Terraform formatting check
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform fmt -check
 
