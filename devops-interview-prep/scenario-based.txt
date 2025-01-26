@@ -1,0 +1,61 @@
+Notes
+- How can a pod in one node communicate with a pod in a different node?
+- Is it possible to convert a public subnet in a VPC to a private subnet?
+- What is the process for using environment variables in a Jenkins pipeline?
+- How can you deploy two websites on an EC2 instance?
+- What strategies would you implement to manage pods when traffic increases on a Kubernetes cluster?
+- Deployment strategies in Kubernetes
+
+Scenario based devops interview questions 
+Scenario: You are managing a high-traffic web application hosted on AWS. Recently, you've noticed intermittent performance issues during peak hours, resulting in increased latency and occasional downtime. How would you diagnose and address this issue?
+
+Scenario: Your company is planning to migrate its on-premises data center to AWS. As part of the migration strategy, you need to ensure minimal downtime and data loss. How would you plan and execute the migration process?
+
+Scenario: You are responsible for securing an AWS infrastructure hosting sensitive customer data. How would you design and implement a robust security strategy to protect against data breaches and unauthorized access?
+
+Scenario: Your application relies heavily on AWS Lambda functions for processing incoming requests. Recently, you've observed a significant increase in execution times and occasional timeouts. How would you optimize the performance of Lambda functions to mitigate these issues?
+
+Scenario: Your organization is experiencing exponential growth in data volume, leading to increased storage costs on AWS. How would you design a cost-effective storage solution that balances performance, scalability, and cost efficiency?
+
+Scenario: You are tasked with designing a highly available and fault-tolerant architecture for a critical application on AWS. How would you leverage AWS services such as Auto Scaling, Elastic Load Balancing, and Multi-AZ deployments to achieve high availability and resilience?
+
+Scenario: Your development team is adopting a microservices architecture for a new project on AWS. How would you design a scalable and resilient infrastructure to support microservices deployment, communication, and monitoring?
+Scenario: Your company operates globally and needs to ensure low-latency access to its web application for users in different geographic regions. How would you architect a distributed application infrastructure using AWS services like Amazon CloudFront, Amazon Route 53, and AWS Global Accelerator to optimize performance and reduce latency?
+
+Scenario: You are tasked with implementing disaster recovery (DR) capabilities for critical applications hosted on AWS. How would you design and configure a DR solution that provides rapid recovery, data integrity, and minimal downtime in the event of a disaster?
+
+Scenario: Your organization is planning to deploy a containerized application on AWS using Amazon ECS. How would you design the architecture and infrastructure to orchestrate and manage containers effectively, ensuring scalability, availability, and performance?
+
+Behavioural round Devops question
+5 such interview questions I wish I had known before taking the actual DevOps Engineer Interview: 
+
+1) Describe a time when you had to work closely with development teams to achieve a common goal. How did you ensure smooth collaboration?
+
+If you are not prepared before, you might take time to think and sometimes be too late! 
+
+Way to handle this: highlight your communication skills, collaboration tools (Slack, Jira), and specific instances where your role as a ‘glue person’ facilitated successful outcomes
+
+2) What would you do if asked to take on a problem where you did not have the technical skills?
+
+Mention HOW would you leverage available resources, seek expert help, quickly upskill, and transparently communicate progress to effectively address the problem
+
+
+3) Tell me about the most challenging technical problem you have solved?
+
+I would suggest preparing such cases before as time is less in the interview, 
+e.g like How you resolved a complex multi-region database synchronization issue, ensuring data consistency and minimal downtime by implementing a robust replication and failover strategy.
+
+or "like how you already have prepared a web application + infra as code project which can easy input via a web page and based on a single click create entire infrastructure in Cloud "
+
+4) Tell me about a time you disagreed with a fellow engineer and how that issue was resolved.
+
+It's a tricky question to find out how logical you are! 
+
+here's an example of how to handle this: "I had resolved a disagreement over deployment strategies with a fellow engineer by facilitating a data-driven discussion, resulting in the adoption of a hybrid approach that improved efficiency and reliability"
+
+5) If you had to pick between owning the entire process for one product versus contributing to multiple products at once, how would you decide?
+
+It's a tricky cultural fit question, you can answer it like this:
+"I would choose based on the potential for impact and learning, selecting the option that aligns best with my career goals and the organization’s strategic priorities."
+
+
