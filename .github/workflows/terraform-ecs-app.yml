@@ -42,6 +42,9 @@ jobs:
         # Step to initialize Terraform, downloading the necessary provider plugins and setting up the working directory
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
+      -name: Terraform formatting check
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform fmt -check
 
       - name: Terraform Plan
         # Step to run 'terraform plan', which will show the changes Terraform will make without actually applying them
@@ -52,6 +55,6 @@ jobs:
       #   # Step to run 'terraform apply' with the '-auto-approve' flag, which applies the changes automatically without requiring manual approval
       #   working-directory: ${{ env.TERRAFORM_PATH }}
       #   run: terraform apply -auto-approve
-      - name: terraform destroy
-        working-directory: ${{ env.TERRAFORM_PATH }}
-        run: terraform destroy -auto-approve
+      # - name: terraform destroy
+      #   working-directory: ${{ env.TERRAFORM_PATH }}
+      #   run: terraform destroy -auto-approve

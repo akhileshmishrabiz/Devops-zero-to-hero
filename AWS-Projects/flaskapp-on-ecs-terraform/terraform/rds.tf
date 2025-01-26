@@ -20,11 +20,11 @@ resource "aws_db_instance" "postgres" {
     aws_security_group.rds.id
   ]
 
-  backup_retention_period         = var.db_default_settings.backup_retention_period
-  db_name                         = var.db_default_settings.db_name
-  auto_minor_version_upgrade      = true
-  deletion_protection             = false
-  copy_tags_to_snapshot           = true
+  backup_retention_period    = var.db_default_settings.backup_retention_period
+  db_name                    = var.db_default_settings.db_name
+  auto_minor_version_upgrade = true
+  deletion_protection        = false
+  copy_tags_to_snapshot      = true
 
   tags = {
     environment = var.environment
@@ -36,7 +36,7 @@ resource "aws_secretsmanager_secret" "db_link" {
   description             = "DB link"
   kms_key_id              = aws_kms_key.rds_kms.arn
   recovery_window_in_days = 7
-  lifecycle {   
+  lifecycle {
     create_before_destroy = true
   }
 }
@@ -80,7 +80,7 @@ resource "aws_security_group" "rds" {
 resource "aws_db_subnet_group" "postgres" {
   name        = "${var.environment}-${var.app_name}-db-subnet-group"
   description = "Subnet group for RDS instance"
-  subnet_ids  = [
+  subnet_ids = [
     aws_subnet.rds_1.id,
     aws_subnet.rds_2.id
   ]
