@@ -39,3 +39,5 @@ No, kubectl exec requires specifying a container (defaulting to the only contain
 10. **How would you troubleshoot if a container in a Pod repeatedly exits and restarts?**
 
 If a container repeatedly crashes, kubectl exec won't work. Instead, examine node and container logs, inspect the Pod's status, and use kubectl debug to start a temporary container for investigating the environment and dependencies.
+
+Source: https://medium.com/@rifewang/kubernetes-10-questions-to-test-your-understanding-of-k8s-c2860c9f3cbf
