@@ -1,136 +1,41 @@
-# Kubernetes Questions and Answers Guide
+# Kubernetes Questions and Answers
 
-## 1. Pod Scheduling Across Nodes
+1. **In a cluster with two nodes, one with pods and the other without, which node will a new pod be scheduled to?**
 
-**Q: In a cluster with two nodes, one with pods and the other without, which node will a new pod be scheduled to?**
+The result depends on configurations such as Pod affinity, taints and tolerations, and scheduling plugins. However, assuming default configurations and equal resource availability on both nodes, the NodeResourcesFit plugin plays a critical role. Its scoring strategies include LeastAllocated (default, prioritizing nodes with the least resource usage), MostAllocated (prioritizing nodes with higher resource usage), and RequestedToCapacityRatio (balancing resource utilization). Using the MostAllocated strategy, new pods would be scheduled to nodes with existing pods, whereas the other two strategies would prefer empty nodes.
 
-The scheduling outcome depends on several factors and configurations, including:
+2. **If an application running in a container encounters an OOM (Out-of-Memory) error, will the container restart, or will the entire Pod be recreated?**
 
-- Pod affinity settings
-- Taints and tolerations
-- Scheduling plugins
+When a container runs out of memory, it typically restarts based on the Pod's RestartPolicy (default is Always). The Pod itself remains intact. However, under extreme conditions, such as severe memory pressure on the node, the Pod might be evicted, resulting in its recreation.
 
-With default configurations and equal resource availability, the NodeResourcesFit plugin's scoring strategy determines placement:
+3. **Can application configurations such as environment variables or ConfigMap updates be applied dynamically without recreating the Pod?**
 
-- LeastAllocated (default): Prioritizes nodes with lowest resource usage, favoring empty nodes
-- MostAllocated: Prefers nodes with higher resource usage, favoring nodes with existing pods
-- RequestedToCapacityRatio: Balances resource utilization across nodes
+Environment variables cannot be updated dynamically. However, ConfigMap updates can be applied dynamically if mounted as files (not using subPath). Synchronization delay depends on kubelet's syncFrequency (default 1 minute) and configMapAndSecretChangeDetectionStrategy.
 
-## 2. Container OOM Behavior
+4. **Is a Pod stable once created, even if the user takes no further action?**
 
-**Q: If an application running in a container encounters an OOM (Out-of-Memory) error, will the container restart, or will the entire Pod be recreated?**
+A Pod is not guaranteed to remain stable. Factors like resource shortages or network disruptions could lead to Pod eviction, even without user intervention.
 
-When an OOM error occurs:
+5. **Can a Service of type ClusterIP ensure load balancing for TCP traffic?**
 
-- The container typically restarts based on the Pod's RestartPolicy (defaults to Always)
-- The Pod itself remains intact and is not recreated
-- In extreme cases with severe node memory pressure, the Pod might be evicted, leading to recreation
+ClusterIP-based Services rely on Linux kernel Netfilter for load balancing. Its connection tracking mechanism maintains session persistence for established TCP connections. This can result in uneven load distribution for long-lived connections.
 
-## 3. Dynamic Configuration Updates
+6. **How should application logs be collected, and is there a risk of losing logs?**
 
-**Q: Can application configurations such as environment variables or ConfigMap updates be applied dynamically without recreating the Pod?**
+Logs can be output to stdout/stderr or written to files. For stdout/stderr, logs are saved on the node and can be collected using log agents like Fluentd or Filebeat (typically deployed as DaemonSet). However, if a Pod is deleted, its logs may be lost before the agent collects them. Writing logs to files on persistent storage can prevent loss.
 
-Configuration update behavior varies:
+7. **If an HTTP Server Pod's livenessProbe is functioning correctly, does it mean the application is problem-free?**
 
-- Environment variables cannot be updated dynamically
-- ConfigMap updates can be applied dynamically if:
-  - Mounted as files
-  - Not using subPath
-- Update synchronization depends on:
-  - kubelet's syncFrequency (default: 1 minute)
-  - configMapAndSecretChangeDetectionStrategy settings
+From an application perspective, livenessProbe only checks if the application is alive, not whether it functions correctly. The application might be in a degraded state while still passing the probe. From a network perspective, livenessProbe (e.g., httpGet) checks requests from the node's kubelet, which doesn't guarantee cross-node network reliability.
 
-## 4. Pod Stability
+8. **How can an application scale to handle traffic fluctuations?**
 
-**Q: Is a Pod stable once created, even if the user takes no further action?**
+Kubernetes supports Horizontal Pod Autoscaling (HPA) and Vertical Pod Autoscaling (VPA). VPA involves recreating Pods with adjusted resources, limiting its scenarios. HPA is more commonly used, dynamically adjusting Pod counts based on metrics like CPU usage, request rate, or custom metrics. External systems can also trigger scaling by sending requests to the kube-apiserver.
 
-Pod stability is not guaranteed. Various factors can lead to Pod eviction:
+9. **When you execute kubectl exec -it <pod> -- bash, are you logging into the pod?**
 
-- Resource shortages
-- Network disruptions
-- Node failures
-- System maintenance
+No, kubectl exec requires specifying a container (defaulting to the only container in a single-container Pod). Pods are collections of isolated Linux namespaces. Containers share Network, IPC, and UTS namespaces, while PID and Mount namespaces remain separate. kubectl exec -it <pod> -- bash starts a new bash process in the target container's isolated environment but doesn't "log in" to the Pod.
 
-## 5. ClusterIP Service Load Balancing
+10. **How would you troubleshoot if a container in a Pod repeatedly exits and restarts?**
 
-**Q: Can a Service of type ClusterIP ensure load balancing for TCP traffic?**
-
-ClusterIP Services handle TCP traffic with some limitations:
-
-- Uses Linux kernel Netfilter for load balancing
-- Connection tracking maintains session persistence
-- Long-lived TCP connections may result in uneven load distribution
-- Better suited for short-lived connections
-
-## 6. Application Log Collection
-
-**Q: How should application logs be collected, and is there a risk of losing logs?**
-
-Logging approaches and considerations:
-
-- Standard output (stdout/stderr):
-  - Saved on the node
-  - Collected via log agents (Fluentd, Filebeat) as DaemonSet
-  - Risk of loss if Pod is deleted before collection
-- File-based logging:
-  - Written to persistent storage
-  - Prevents log loss
-  - Requires storage configuration
-
-## 7. Liveness Probe Reliability
-
-**Q: If an HTTP Server Pod's livenessProbe is functioning correctly, does it mean the application is problem-free?**
-
-Liveness probe limitations:
-
-- Application perspective:
-  - Only checks if application is alive
-  - Doesn't verify correct functionality
-  - Application can be degraded while passing probe
-- Network perspective:
-  - Checks requests from node's kubelet
-  - Doesn't guarantee cross-node network reliability
-
-## 8. Application Scaling
-
-**Q: How can an application scale to handle traffic fluctuations?**
-
-Kubernetes provides multiple scaling options:
-
-- Horizontal Pod Autoscaling (HPA):
-  - Most commonly used
-  - Dynamically adjusts Pod count
-  - Based on metrics (CPU, request rate, custom metrics)
-- Vertical Pod Autoscaling (VPA):
-  - Adjusts Pod resources
-  - Requires Pod recreation
-  - Limited use cases
-- External scaling:
-  - Through kube-apiserver requests
-  - Custom metrics-based scaling
-
-## 9. kubectl exec Understanding
-
-**Q: When you execute kubectl exec -it <pod> -- bash, are you logging into the pod?**
-
-No, the command behavior is more specific:
-
-- Targets a specific container (defaults to single container in Pod)
-- Pods are collections of isolated Linux namespaces
-- Containers share Network, IPC, and UTS namespaces
-- PID and Mount namespaces remain separate
-- Creates new bash process in container's isolated environment
-
-## 10. Troubleshooting Container Restarts
-
-**Q: How would you troubleshoot if a container in a Pod repeatedly exits and restarts?**
-
-Troubleshooting approach:
-
-- kubectl exec won't work with crashing containers
-- Investigation methods:
-  - Examine node logs
-  - Review container logs
-  - Check Pod status
-  - Use kubectl debug to start temporary container
-  - Investigate environment and dependencies
+If a container repeatedly crashes, kubectl exec won't work. Instead, examine node and container logs, inspect the Pod's status, and use kubectl debug to start a temporary container for investigating the environment and dependencies.
