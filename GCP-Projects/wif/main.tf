@@ -1,18 +1,23 @@
 
+
 variable "project_id" {
   description = "The project ID"
   type        = string
+  default     = "my-project-id"
 }
 
 variable "workload_identity_pool_id" {
   description = "The workload identity pool ID"
   type        = string
+  default     = "workload-pool"
 }
 
 variable "google_iam_workload_identity_pool_provider" {
   description = "The workload identity pool provider"
   type        = string
+  default     = "github"
 }
+
 
 # Allowed GitHub repos to use the workload identity federation service account
 locals {
@@ -24,7 +29,7 @@ locals {
 
   allowed_branches = [
     "main",
-    "release",
+    "release-rc",
   ]
 
   # Create the condition string for all combinations
@@ -38,8 +43,8 @@ locals {
       ["(assertion.sub=='repo:${repo}:pull_request')"]
     ]
   ]))
-
 }
+
 
 # Service account associated with workload identity pool
 resource "google_service_account" "github-svc" {
@@ -64,6 +69,12 @@ resource "google_project_iam_member" "github-access" {
   project = var.project_id
   role    = "roles/owner"
   member  = "serviceAccount:${google_service_account.github-svc.email}"
+}
+
+resource "google_service_account_iam_member" "wif-sa" {
+  service_account_id = google_service_account.github-svc.id
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.main.name}/${each.value.attribute}"
 }
 
 resource "google_iam_workload_identity_pool" "main" {
