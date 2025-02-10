@@ -4,21 +4,50 @@
 locals {
   # Place the allowed repo in alphabetical order 
   allowed_repos = [
-    "akhileshmishra/repos-names",
-    "orgname/reponame"
+    "akhileshmishrabiz/Devops-zero-to-hero",
+    #"orgname/reponame"
   ]
 
-  allowed_subjects = flatten([
-    # For main branch
-    [for repo in local.allowed_repos : "repo:${repo}:ref:refs/heads/main"],
-    # For pull requests
-    [for repo in local.allowed_repos : "repo:${repo}:pull_request"]
-  ])
+   allowed_branches = [
+    "main",
+    "release-rc",
+  ]
+
+  # Create the condition string for all combinations
+  sub_conditions = join(" || ", flatten([
+    # For each repo
+    for repo in local.allowed_repos : [
+      # Add condition for each branch
+      [for branch in local.allowed_branches :
+      "(assertion.sub=='repo:${repo}:ref:refs/heads/${branch}')"],
+      # Add pull request condition
+      ["(assertion.sub=='repo:${repo}:pull_request')"]
+    ]
+  ]))
 
 }
 
+resource "google_project_service" "wif_api" {
+  for_each = toset([
+    "iam.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "sts.googleapis.com",
+  ])
+
+  service            = each.value
+  disable_on_destroy = false
+}
+
+resource "google_project_iam_member" "github-access" {
+
+  project = "your_project_id"
+  role    = "roles/owner"
+  member  = "serviceAccount:${google_service_account.github-svc.email}"
+}
+
 # These resources are imported from gcp to harden the security and strictly allow particular 
-# Repos under KPMG-UK org
+# Repos under SOME_ORG org
 resource "google_iam_workload_identity_pool" "main" {
   description               = "workload-pool"
   disabled                  = false
@@ -49,3 +78,6 @@ resource "google_iam_workload_identity_pool_provider" "main" {
     jwks_json         = null
   }
 }
+
+
+
