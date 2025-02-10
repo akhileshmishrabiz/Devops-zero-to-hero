@@ -1,4 +1,18 @@
-# Setting up workload identity federation for github actions
+
+variable "project_id" {
+  description = "The project ID"
+  type        = string
+}
+
+variable "workload_identity_pool_id" {
+  description = "The workload identity pool ID"
+  type        = string
+}
+
+variable "google_iam_workload_identity_pool_provider" {
+  description = "The workload identity pool provider"
+  type        = string
+}
 
 # Allowed GitHub repos to use the workload identity federation service account
 locals {
@@ -8,9 +22,9 @@ locals {
     #"orgname/reponame"
   ]
 
-   allowed_branches = [
+  allowed_branches = [
     "main",
-    "release-rc",
+    "release",
   ]
 
   # Create the condition string for all combinations
@@ -27,6 +41,13 @@ locals {
 
 }
 
+# Service account associated with workload identity pool
+resource "google_service_account" "github-svc" {
+  project      = var.project_id
+  account_id   = "gcp-github-access"
+  display_name = "Service Account - github-svc"
+}
+
 resource "google_project_service" "wif_api" {
   for_each = toset([
     "iam.googleapis.com",
@@ -40,14 +61,11 @@ resource "google_project_service" "wif_api" {
 }
 
 resource "google_project_iam_member" "github-access" {
-
-  project = "your_project_id"
+  project = var.project_id
   role    = "roles/owner"
   member  = "serviceAccount:${google_service_account.github-svc.email}"
 }
 
-# These resources are imported from gcp to harden the security and strictly allow particular 
-# Repos under SOME_ORG org
 resource "google_iam_workload_identity_pool" "main" {
   description               = "workload-pool"
   disabled                  = false
@@ -58,7 +76,7 @@ resource "google_iam_workload_identity_pool" "main" {
 
 resource "google_iam_workload_identity_pool_provider" "main" {
   # attribute_condition = "assertion.repository_owner=='orgname' && assertion.repository in ${jsonencode(local.allowed_repos)}"
-  attribute_condition = "assertion.sub in ${jsonencode(local.allowed_subjects)}"
+  attribute_condition = local.sub_conditions
 
   attribute_mapping = {
     "attribute.actor"      = "assertion.actor"
