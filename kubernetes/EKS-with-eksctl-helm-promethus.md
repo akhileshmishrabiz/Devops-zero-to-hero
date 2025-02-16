@@ -41,6 +41,9 @@ curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_ch
 unzip eksctl_$PLATFORM.zip -d $HOME/bin
 rm eksctl_$PLATFORM.zip
 ```
+or use the link
+
+https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
 ## 4. Verify AWS Credentials
 ```sh
