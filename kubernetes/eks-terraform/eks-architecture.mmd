@@ -1,0 +1,86 @@
+graph TD
+    subgraph "AWS Cloud"
+        subgraph "VPC"
+            subgraph "Public Subnets"
+                ALB[Application Load Balancer]
+                NAT[NAT Gateway]
+                BAST[Bastion Host]
+            end
+
+            subgraph "Private Subnets"
+                subgraph "EKS Cluster"
+                    CP[Control Plane]
+                    
+                    subgraph "Worker Nodes"
+                        WN1[Worker Node 1]
+                        WN2[Worker Node 2]
+                        WN3[Worker Node 3]
+                    end
+
+                    subgraph "Core Services"
+                        MS[Metrics Server]
+                        CD[Cluster Autoscaler]
+                        ALBCtrl[ALB Controller]
+                        EFSCtrl[EFS CSI Driver]
+                    end
+
+                    subgraph "Monitoring Stack"
+                        PROM[Prometheus]
+                        GRAF[Grafana]
+                        ALERT[AlertManager]
+                    end
+
+                    subgraph "Application Pods"
+                        APP1[Frontend Apps]
+                        APP2[Backend Services]
+                        APP3[Databases]
+                    end
+                end
+            end
+        end
+
+        subgraph "AWS Services"
+            R53[Route 53]
+            ECR[Elastic Container Registry]
+            CW[CloudWatch]
+            ACM[Certificate Manager]
+            IAM[IAM/OIDC]
+            EFS[EFS Storage]
+            SM[Secrets Manager]
+        end
+    end
+
+    subgraph "External"
+        USER[End Users]
+        CICD[CI/CD Pipeline]
+        DEV[Developers]
+    end
+
+    %% Connections
+    USER --> R53
+    R53 --> ALB
+    ALB --> APP1
+    APP1 --> APP2
+    APP2 --> APP3
+    APP2 --> SM
+    APP3 --> EFS
+    
+    DEV --> CICD
+    CICD --> ECR
+    ECR --> WN1
+    ECR --> WN2
+    ECR --> WN3
+    
+    CP --> CW
+    PROM --> CW
+    ALERT --> CW
+    
+    WN1 & WN2 & WN3 --> IAM
+    
+    DEV --> BAST
+    BAST --> CP
+
+    %% Monitoring connections
+    APP1 & APP2 & APP3 --> PROM
+    PROM --> GRAF
+    PROM --> ALERT
