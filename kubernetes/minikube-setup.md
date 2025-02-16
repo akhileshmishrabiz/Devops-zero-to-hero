@@ -1,3 +1,24 @@
+### Minikube on mac
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.0/2024-01-04/bin/linux/amd64/kubectl
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-arm64
+
+sudo install minikube-darwin-arm64 /usr/local/bin/minikube
+
+
+Uninstall:
+
+minikube stop; minikube delete &&
+docker stop $(docker ps -aq) &&
+rm -rf ~/.kube ~/.minikube &&
+sudo rm -rf /usr/local/bin/localkube /usr/local/bin/minikube &&
+launchctl stop '*kubelet*.mount' &&
+launchctl stop localkube.service &&
+launchctl disable localkube.service &&
+sudo rm -rf /etc/kubernetes/ &&
+docker system prune -af --volumes
+
+
 # On github codespace ###
 
 1. login to your github account 
