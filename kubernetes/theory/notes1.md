@@ -43,6 +43,47 @@ IMP: The resources key is added to specify the limits and requests. The Pod will
 
 #####################################
 
+# Kubernetes Probes Explained
+
+Kubernetes offers three types of probes for container health checking, each serving a different purpose in a pod's lifecycle:
+
+## Liveness Probe
+- **Purpose**: Determines if a container is running properly
+- **Action on failure**: Kubernetes restarts the container
+- **Use case**: Detect application deadlocks, memory leaks, or other states where the container is running but unhealthy
+- **When it runs**: Throughout the container's lifecycle, on a schedule
+
+## Readiness Probe
+- **Purpose**: Determines if a container is ready to accept traffic
+- **Action on failure**: Kubernetes stops sending traffic to the pod
+- **Use case**: Prevent traffic to pods that aren't fully initialized or temporarily unable to serve requests
+- **When it runs**: Throughout the container's lifecycle, on a schedule
+- **Key difference**: Unlike liveness probes, failures don't cause container restarts
+
+## Startup Probe
+- **Purpose**: Determines when a container application has started
+- **Action on failure**: Kubernetes restarts the container if max failure threshold is exceeded
+- **Use case**: Applications with slow startup times that might fail liveness checks during initialization
+- **When it runs**: During container startup only, until it succeeds once
+- **Key difference**: Disables liveness and readiness checks until the container passes startup checks
+
+## Common Implementation Methods
+All three probes can be implemented using:
+- HTTP GET requests
+- TCP socket checks
+- Exec commands that run inside the container
+
+## Example Use Case
+For a web application:
+- **Startup probe**: Check if the application server process has started
+- **Readiness probe**: Verify that the application can connect to its database and is ready for traffic
+- **Liveness probe**: Ensure the application hasn't deadlocked by checking a health endpoint
+
+The combination of these probes enables Kubernetes to handle both slow-starting containers and maintain overall system health by properly managing traffic and restarting unhealthy containers.
+
+
+#####################################
+
 ##  Pod Security Contexts
 **Pod Security Context Key Features**:
 
