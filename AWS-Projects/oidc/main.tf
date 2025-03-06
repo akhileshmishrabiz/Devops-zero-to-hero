@@ -1,30 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
-# Variables
-variable "aws_region" {
-  description = "AWS region"
-  type        = string
-  default     = "ap-south-1"
-}
-
-variable "github_repositories" {
-  description = "List of GitHub repositories to grant access to"
-  type = list(object({
-    org    = string
-    repo   = string
-    branch = optional(string, "*")
-  }))
-  default = [
-    {
-      org    = "akhileshmishrabiz"
-      repo   = "DevOpsDojo"
-      branch = "*"
-    }
-  ]
-}
-
 # OIDC Provider
 resource "aws_iam_openid_connect_provider" "github_actions" {
   url = "https://token.actions.githubusercontent.com"
@@ -114,15 +87,4 @@ resource "aws_iam_policy" "github_actions_eks_policy" {
 resource "aws_iam_role_policy_attachment" "github_actions_eks_policy_attachment" {
   role       = aws_iam_role.github_actions_eks_deploy_role.name
   policy_arn = aws_iam_policy.github_actions_eks_policy.arn
-}
-
-# Outputs
-output "role_arn" {
-  description = "ARN of the IAM role for GitHub Actions"
-  value       = aws_iam_role.github_actions_eks_deploy_role.arn
-}
-
-output "oidc_provider_arn" {
-  description = "ARN of the OIDC provider"
-  value       = aws_iam_openid_connect_provider.github_actions.arn
 }
