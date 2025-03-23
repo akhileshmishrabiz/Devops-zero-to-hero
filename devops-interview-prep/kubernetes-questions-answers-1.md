@@ -168,3 +168,75 @@ Popular options include Istio, Linkerd, and Consul Connect.
 5. Custom validations
 6. Security compliance checks
 7. Resource quota management
+
+# Additional Kubernetes Interview Questions & Answers
+
+### Q18: How would you troubleshoot a pod that's stuck in "Pending" state?
+**Answer:** To troubleshoot a pending pod:
+1. Check insufficient resources (CPU/memory)
+2. Verify node selector/affinity constraints
+3. Examine PersistentVolume availability
+4. Check for tainted nodes
+5. Inspect events using `kubectl describe pod`
+6. Review scheduler logs
+7. Verify network plugin functionality
+
+### Q19: Explain ConfigMaps and Secrets, and how they differ from each other.
+**Answer:** ConfigMaps and Secrets both store configuration data but:
+
+ConfigMaps:
+- Store non-sensitive configuration data
+- Can be mounted as volumes or environment variables
+- Ideal for application config files
+- Stored unencrypted
+
+Secrets:
+- Designed for sensitive information
+- Base64 encoded (not encrypted by default)
+- Can be mounted as volumes or environment variables
+- Better access controls
+- Support for encryption at rest
+
+### Q20: What are Kubernetes Operators and when would you use them?
+**Answer:** Kubernetes Operators:
+1. Extend Kubernetes API for custom resources
+2. Automate application-specific operations
+3. Encode operational knowledge into software
+4. Handle application lifecycle management
+5. Used for stateful applications with complex operations
+
+Common use cases:
+- Databases (MongoDB, PostgreSQL)
+- Message queues (Kafka, RabbitMQ)
+- Complex distributed systems
+- Applications requiring specialized knowledge
+
+### Q21: How do you implement blue-green deployments in Kubernetes?
+**Answer:** For blue-green deployments in Kubernetes:
+1. Deploy new version (green) alongside current version (blue)
+2. Both versions run simultaneously but only blue receives traffic
+3. Test green deployment thoroughly
+4. Switch traffic from blue to green by updating Service selector
+5. Monitor for issues after switchover
+6. Keep blue deployment ready for rollback
+7. Remove old deployment when stable
+
+Implementation options:
+- Service selectors with labels
+- Ingress controllers
+- Service mesh solutions
+
+### Q22: What security measures would you implement in a production Kubernetes cluster?
+**Answer:** Essential Kubernetes security measures:
+1. Network policies for pod-to-pod communication
+2. RBAC with least privilege principle
+3. Pod Security Policies/Pod Security Standards
+4. Regular image scanning
+5. Secrets management solution
+6. Node and container hardening
+7. Encrypted etcd
+8. Admission controllers
+9. Regular security audits
+10. Runtime security monitoring
+11. Image signing and verification
+12. Cluster upgrade strategy
