@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Classes{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-8">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-4xl font-normal">Class Sessions</h2>
+        <a href="{{ url_for('main.add_class') }}" 
+           class="text-xl bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+            Add New Class
+        </a>
+    </div>
+
+    <div class="space-y-6">
+        {% for class in classes %}
+        <div class="bg-white rounded-lg shadow-sm p-8">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h3 class="text-2xl mb-2">{{ class.date.strftime('%B %d, %Y') }}</h3>
+                    <p class="text-xl text-gray-600">{{ class.time }}</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="{{ url_for('main.edit_class', id=class.id) }}" 
+                       class="text-lg text-blue-600 hover:underline">Edit</a>
+                    <button onclick="deleteClass({{ class.id }})" 
+                            class="text-lg text-red-600 hover:underline">×</button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                {% if class.session_link %}
+                <div class="flex justify-between items-center">
+                    <span class="text-xl">Session:</span>
+                    <a href="{{ class.session_link }}" target="_blank" 
+                       class="text-blue-600 hover:underline text-xl">Join</a>
+                </div>
+                {% endif %}
+
+                {% if class.code_link %}
+                <div class="flex justify-between items-center">
+                    <span class="text-xl">Code:</span>
+                    <a href="{{ class.code_link }}" target="_blank" 
+                       class="text-blue-600 hover:underline text-xl">View</a>
+                </div>
+                {% endif %}
+
+                {% if class.recording_link %}
+                <div class="flex justify-between items-center">
+                    <span class="text-xl">Recording:</span>
+                    <a href="{{ class.recording_link }}" target="_blank" 
+                       class="text-blue-600 hover:underline text-xl">Watch</a>
+                </div>
+                {% endif %}
+
+                {% if class.resource_link %}
+                <div class="flex justify-between items-center">
+                    <span class="text-xl">Resources:</span>
+                    <a href="{{ class.resource_link }}" target="_blank" 
+                       class="text-blue-600 hover:underline text-xl">Download</a>
+                </div>
+                {% endif %}
+
+                {% if class.remarks %}
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <h4 class="text-xl mb-2">Remarks</h4>
+                    <p class="text-xl text-gray-600">{{ class.remarks }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+## Simple deployment with local Docker image and docker container
+
+# Install minikube on github codespace using the link
+Use this to install minikube on github codespaces
+https://github.com/akhileshmishrabiz/Devops-zero-to-hero/blob/main/kubernetes/minikube-setup.md
+
+# Start Minikube
+minikube start
+
+
+# Create a rds db and create the link
+# export DB_LINK="postgresql://postgres:password@minikube-postgres-db.cfykukwcw419.ap-south-1.rds.amazonaws.com:5432/postgres"
+DB_USER="postgres"
+DB_PASSWORD="password"
+DB_HOST="minikube.cfykukwcw419.ap-south-1.rds.amazonaws.com"
+DB_PORT="5432"
+DB_NAME="postgres"
+
+# Go to k8s folder
+cd student-portal/k8s
+
+# Create base64 encoded secret
+echo -n $DB_USER | base64
+-> copy the value to secret -> DB_USER: <base64-encoded>
+echo -n $DB_PASSWORD
+-> copy the value to secret -> DB_PASSWORD: <base64-encoded>
+
+
+# Install aws cli 
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+# login to ecr, and use the secret to pull image
+
+kubectl create secret docker-registry aws-secret \
+  --docker-server=366140438193.dkr.ecr.ap-south-1.amazonaws.com \
+  --docker-username=AWS \
+  --docker-password="$(aws ecr get-login-password --region ap-south-1)" 
+
+
+# Apply Kubernetes manifests
+kubectl apply -f configmap.yaml
+kubectl apply -f secret.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+
+  
+
+# Access the app
+minikube service flask-app
+minikube service flask-app --url
+
+# or use the port forwarding 
+kubectl port-forward service/flask-app 8080:80
+-> The app should be accessible at http://localhost:8080 or the Codespaces URL.
+
+
+
+# Monitor deployment:
+kubectl get pods
+kubectl get services
+kubectl logs -f <pod-name>
+
+# Troubleshooting secret as env
+# Exec into pod to check environment variables
+kubectl exec -it $(kubectl get pod -l app=flask-app -o jsonpath='{.items[0].metadata.name}') -- env | grep DB_LINK
+
+# Or print logs to see if app reads secret
+kubectl logs $(kubectl get pod -l app=flask-app -o jsonpath='{.items[0].metadata.name}')

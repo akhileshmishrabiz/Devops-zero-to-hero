@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800">
+  <!-- Background -->
+  <rect width="1000" height="800" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="500" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Craftista Microservices Architecture</text>
+  
+  <!-- Kubernetes Cluster Border -->
+  <rect x="50" y="80" width="900" height="650" fill="#f0f4f8" stroke="#4285f4" stroke-width="2" stroke-dasharray="5,5" rx="10" />
+  <text x="70" y="105" font-family="Arial" font-size="16" font-weight="bold" fill="#4285f4">Kubernetes Cluster (Minikube)</text>
+  
+  <!-- Ingress Controller -->
+  <rect x="100" y="130" width="800" height="60" fill="#e8f0fe" stroke="#4285f4" stroke-width="2" rx="5" />
+  <text x="500" y="168" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">NGINX Ingress Controller</text>
+  
+  <!-- Services -->
+  <!-- Frontend Service -->
+  <rect x="200" y="240" width="600" height="80" fill="#ffead0" stroke="#ff9800" stroke-width="2" rx="5" />
+  <text x="500" y="270" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Frontend Service (Node.js)</text>
+  <text x="500" y="295" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">ClusterIP: frontend:80 → Pods:3000</text>
+  
+  <!-- Backend Services -->
+  <rect x="120" y="370" width="240" height="80" fill="#e0f2f1" stroke="#009688" stroke-width="2" rx="5" />
+  <text x="240" y="400" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Catalogue Service (Python)</text>
+  <text x="240" y="425" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">ClusterIP: catalogue:5000</text>
+  
+  <rect x="380" y="370" width="240" height="80" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="5" />
+  <text x="500" y="400" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Recommendation Service (Go)</text>
+  <text x="500" y="425" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">ClusterIP: recco:8080</text>
+  
+  <rect x="640" y="370" width="240" height="80" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="5" />
+  <text x="760" y="400" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Voting Service (Java)</text>
+  <text x="760" y="425" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">ClusterIP: voting:8080</text>
+  
+  <!-- Deployments/Pods -->
+  <rect x="120" y="500" width="240" height="80" fill="#e0f2f1" stroke="#009688" stroke-width="2" rx="10" opacity="0.7" />
+  <text x="240" y="535" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">Catalogue Pods (2 replicas)</text>
+  <text x="240" y="555" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">Image: my/craftista-catalogue:dev</text>
+  
+  <rect x="380" y="500" width="240" height="80" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="10" opacity="0.7" />
+  <text x="500" y="535" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">Recommendation Pods (2 replicas)</text>
+  <text x="500" y="555" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">Image: my/craftista-recommendation:dev</text>
+  
+  <rect x="640" y="500" width="240" height="80" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="10" opacity="0.7" />
+  <text x="760" y="535" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">Voting Pods (2 replicas)</text>
+  <text x="760" y="555" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">Image: my/craftista-voting:dev</text>
+  
+  <rect x="200" y="630" width="600" height="80" fill="#ffead0" stroke="#ff9800" stroke-width="2" rx="10" opacity="0.7" />
+  <text x="500" y="665" font-family="Arial" font-size="14" text-anchor="middle" fill="#333">Frontend Pods (2 replicas)</text>
+  <text x="500" y="685" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">Image: my/craftista-frontend:dev</text>
+  
+  <!-- External Components -->
+  <rect x="120" y="650" width="160" height="60" fill="#ffffff" stroke="#4caf50" stroke-width="2" rx="5" />
+  <text x="200" y="680" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">AWS Secrets Manager</text>
+  
+  <rect x="120" y="540" width="160" height="60" fill="#ffffff" stroke="#673ab7" stroke-width="2" rx="5" />
+  <text x="200" y="570" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">PostgreSQL RDS</text>
+  <text x="200" y="590" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">craftdb.cfykukwcw419.ap-south-1</text>
+  
+  <!-- ConfigMaps and Secrets -->
+  <rect x="640" y="630" width="120" height="30" fill="#fff9c4" stroke="#fbc02d" stroke-width="2" rx="5" />
+  <text x="700" y="650" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">ConfigMaps</text>
+  
+  <rect x="770" y="630" width="120" height="30" fill="#ffcdd2" stroke="#e53935" stroke-width="2" rx="5" />
+  <text x="830" y="650" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Secrets</text>
+  
+  <!-- Connection Lines -->
+  <!-- External User to Ingress -->
+  <line x1="500" y1="80" x2="500" y2="130" stroke="#666" stroke-width="2" stroke-dasharray="5,5" />
+  <polygon points="500,130 495,120 505,120" fill="#666" />
+  <text x="520" y="110" font-family="Arial" font-size="12" fill="#666">HTTP</text>
+  
+  <!-- Ingress to Frontend -->
+  <line x1="500" y1="190" x2="500" y2="240" stroke="#ff9800" stroke-width="2" />
+  <polygon points="500,240 495,230 505,230" fill="#ff9800" />
+  
+  <!-- Frontend to Backend Services -->
+  <line x1="240" y1="320" x2="240" y2="370" stroke="#009688" stroke-width="2" />
+  <polygon points="240,370 235,360 245,360" fill="#009688" />
+  <text x="255" y="350" font-family="Arial" font-size="10" fill="#009688">HTTP</text>
+  
+  <line x1="500" y1="320" x2="500" y2="370" stroke="#2196f3" stroke-width="2" />
+  <polygon points="500,370 495,360 505,360" fill="#2196f3" />
+  <text x="515" y="350" font-family="Arial" font-size="10" fill="#2196f3">HTTP</text>
+  
+  <line x1="760" y1="320" x2="760" y2="370" stroke="#9c27b0" stroke-width="2" />
+  <polygon points="760,370 755,360 765,360" fill="#9c27b0" />
+  <text x="775" y="350" font-family="Arial" font-size="10" fill="#9c27b0">HTTP</text>
+  
+  <!-- Service to Pods -->
+  <line x1="240" y1="450" x2="240" y2="500" stroke="#009688" stroke-width="2" stroke-dasharray="4,2" />
+  <polygon points="240,500 235,490 245,490" fill="#009688" />
+  
+  <line x1="500" y1="450" x2="500" y2="500" stroke="#2196f3" stroke-width="2" stroke-dasharray="4,2" />
+  <polygon points="500,500 495,490 505,490" fill="#2196f3" />
+  
+  <line x1="760" y1="450" x2="760" y2="500" stroke="#9c27b0" stroke-width="2" stroke-dasharray="4,2" />
+  <polygon points="760,500 755,490 765,490" fill="#9c27b0" />
+  
+  <!-- Catalogue to Database -->
+  <line x1="200" y1="540" x2="240" y2="500" stroke="#009688" stroke-width="2" />
+  <polygon points="240,500 232,505 237,495" fill="#009688" />
+  <text x="190" y="525" font-family="Arial" font-size="10" fill="#009688">SQL</text>
+  
+  <!-- Catalogue to Secrets Manager -->
+  <line x1="200" y1="650" x2="240" y2="580" stroke="#4caf50" stroke-width="2" stroke-dasharray="3,3" />
+  <polygon points="240,580 232,585 237,575" fill="#4caf50" />
+  <text x="210" y="625" font-family="Arial" font-size="10" fill="#4caf50">HTTPS</text>
+  
+  <!-- Voting to Catalogue -->
+  <line x1="640" y1="410" x2="360" y2="410" stroke="#673ab7" stroke-width="2" stroke-dasharray="5,3" />
+  <polygon points="360,410 370,405 370,415" fill="#673ab7" />
+  <text x="500" y="400" font-family="Arial" font-size="10" fill="#673ab7">Sync product data</text>
+  
+  <!-- Legend -->
+  <rect x="780" y="100" width="150" height="150" fill="white" stroke="#ccc" stroke-width="1" rx="5" />
+  <text x="855" y="120" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Legend</text>
+  
+  <rect x="790" y="130" width="20" height="10" fill="#e0f2f1" stroke="#009688" stroke-width="2" rx="2" />
+  <text x="820" y="139" font-family="Arial" font-size="10" fill="#333">Catalogue Service</text>
+  
+  <rect x="790" y="150" width="20" height="10" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="2" />
+  <text x="820" y="159" font-family="Arial" font-size="10" fill="#333">Recommendation Service</text>
+  
+  <rect x="790" y="170" width="20" height="10" fill="#f3e5f5" stroke="#9c27b0" stroke-width="2" rx="2" />
+  <text x="820" y="179" font-family="Arial" font-size="10" fill="#333">Voting Service</text>
+  
+  <rect x="790" y="190" width="20" height="10" fill="#ffead0" stroke="#ff9800" stroke-width="2" rx="2" />
+  <text x="820" y="199" font-family="Arial" font-size="10" fill="#333">Frontend Service</text>
+  
+  <rect x="790" y="210" width="20" height="10" fill="#ffffff" stroke="#673ab7" stroke-width="2" rx="2" />
+  <text x="820" y="219" font-family="Arial" font-size="10" fill="#333">External Services</text>
+
+  <!-- Client -->
+  <rect x="450" y="30" width="100" height="40" fill="#ffffff" stroke="#333" stroke-width="2" rx="20" />
+  <text x="500" y="55" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Client Browser</text>
+  
+  <!-- API Paths Labels -->
+  <text x="350" y="155" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">/api/products → catalogue</text>
+  <text x="500" y="155" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">/api/origami-of-the-day → recco</text>
+  <text x="650" y="155" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">/api/origamis → voting</text>
+  <text x="240" y="190" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">/ → frontend</text>
+</svg>

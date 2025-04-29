@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Craftista - Origami Marketplace</title>
+    <script src="/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <img src="/images/logo.png" alt="Craftista Logo" class="logo">
+        <h1>Craftista - Fold, Admire and Vote</h1>
+    </header>
+
+    <main>
+	<section id="product-list">
+	  <div id="daily-origami-container">
+          <!-- Daily origami will be inserted here -->
+         </div>
+          <h2>Origami Showcase</h2>
+          <div id="products">
+          <!-- Products will be inserted here by script.js -->
+          </div>
+          <p id="loading-message">Loading origamis...</p>
+        </section>
+
+        <aside class="system-info">
+            <h2>System Information</h2>
+            <p><strong>Hostname:</strong> <%= systemInfo.hostname %></p>
+            <p><strong>IP Address:</strong> <%= systemInfo.ipAddress %></p>
+            <p><strong>Running in Container:</strong> <%= systemInfo.isContainer ? 'Yes' : 'No' %></p>
+            <p><strong>Running on Kubernetes:</strong> <%= systemInfo.isKubernetes ? 'Yes' : 'No' %></p>
+        </aside>
+
+        <section id="status" class="status-section">
+	  <h2>App Version</h2>
+	  <div class="version-circle">
+             <p><%= app_version %></p>
+          </div>
+          <h2>Backend Services</h2>
+          <div id="status-grid" class="status-grid">
+            <!-- Status boxes will be appended here by script.js -->
+          </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Orgami workshop by Livingdevops.</p>
+    </footer>
+
+</body>
+</html>

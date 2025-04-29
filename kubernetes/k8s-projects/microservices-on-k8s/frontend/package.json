@@ -1,0 +1,21 @@
+{
+  "name": "craftista-frontend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dependencies": "^0.0.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha test/*.js"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0",
+    "nock": "^13.3.4"
+  }
+}

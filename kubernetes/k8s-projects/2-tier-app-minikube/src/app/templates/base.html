@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Student Attendance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#2B3B4E',
+                        'navy-light': '#374A61'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Main Header -->
+    <header class="bg-navy">
+        <div class="max-w-full mx-auto">
+            <h1 class="text-white text-4xl font-bold text-center py-16">Student Attendance</h1>
+            {% if current_user.is_authenticated %}
+            <nav class="bg-navy-light">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="flex items-center justify-between h-16">
+                        <div class="flex items-center space-x-8">
+                            <a href="{{ url_for('main.dashboard') }}" class="text-white hover:bg-navy px-4 py-2 rounded-md text-lg">Dashboard</a>
+                            <a href="{{ url_for('main.students') }}" class="text-white hover:bg-navy px-4 py-2 rounded-md text-lg">Students</a>
+                            <a href="{{ url_for('main.attendance') }}" class="text-white hover:bg-navy px-4 py-2 rounded-md text-lg">Attendance</a>
+                            <a href="{{ url_for('main.classes') }}" class="text-white hover:bg-navy px-4 py-2 rounded-md text-lg">Classes</a>
+                        </div>
+                        <div class="flex items-center space-x-6">
+                            <span class="text-white text-lg">{{ current_user.username }}</span>
+                            <a href="{{ url_for('auth.logout') }}" class="text-white hover:text-red-300 text-lg">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu md:hidden">
+        {% if current_user.is_authenticated %}
+            <div class="px-4 pt-4 pb-4 space-y-2 bg-navy">
+                <a href="{{ url_for('main.dashboard') }}" class="text-white hover:bg-navy-light block px-4 py-3 rounded-md text-lg">Dashboard</a>
+                <a href="{{ url_for('main.students') }}" class="text-white hover:bg-navy-light block px-4 py-3 rounded-md text-lg">Students</a>
+                <a href="{{ url_for('main.attendance') }}" class="text-white hover:bg-navy-light block px-4 py-3 rounded-md text-lg">Attendance</a>
+                <a href="{{ url_for('main.classes') }}" class="text-white hover:bg-navy-light block px-4 py-3 rounded-md text-lg">Classes</a>
+                <div class="border-t border-navy-light pt-4">
+                    <span class="text-white block px-4 py-2 text-lg">{{ current_user.username }}</span>
+                    <a href="{{ url_for('auth.logout') }}" class="text-red-300 hover:text-red-400 block px-4 py-2 text-lg">Logout</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="mb-6 p-4 text-lg rounded-lg {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.mobile-overlay');
+
+            function toggleMenu() {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('overflow-hidden');
+            }
+
+            hamburger.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+
+            // Close menu on window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Student management functions
+        function editStudent(id) {
+            const name = prompt("Enter new name:");
+            if (name) {
+                fetch(`/edit_student/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({name: name})
+                }).then(() => location.reload());
+            }
+        }
+        
+        function deleteStudent(id) {
+            if (confirm("Are you sure you want to delete this student?")) {
+                fetch(`/delete_student/${id}`, {
+                    method: 'POST'
+                }).then(() => location.reload());
+            }
+        }
+    </script>
+</body>
+</html>

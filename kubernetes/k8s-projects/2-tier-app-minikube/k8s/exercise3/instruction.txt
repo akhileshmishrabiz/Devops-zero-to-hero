@@ -1,0 +1,126 @@
+# create secret to hold db details
+kubectl create secret generic db-secret --from-literal=DB_LINK="postgresql://postgres:Adityasfq0@minikube-postgres-db.cfykukwcw419.ap-south-1.rds.amazonaws.com:5432/postgres"
+# Install aws cli 
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+
+##  ecr login secret
+kubectl create secret docker-registry aws-secret \
+  --docker-server=366140438193.dkr.ecr.ap-south-1.amazonaws.com \
+  --docker-username=AWS \
+  --docker-password="$(aws ecr get-login-password --region ap-south-1)" 
+
+
+kubectl apply -f .
+
+# Access services
+
+# Port forward attendance app
+kubectl port-forward svc/attendance-app 8000:8000
+
+# Port forward prometheus 
+kubectl port-forward svc/prometheus 9090:9090
+
+# Port forward grafana
+kubectl port-forward svc/grafana 3000:3000
+
+-> admin as user and admin as password
+# Run these in separate terminal windows
+
+# Open the app in browser
+minikube service attendance-app --url
+
+# Open the Prometheus UI in browser
+minikube service prometheus --url
+# Open the Grafana UI in browser
+minikube service Grafana --url
+
+Access at http://localhost:3000 (default credentials: admin/admin)
+### Grafana Dashboard
+{
+  "panels": [
+    {
+      "title": "Attendance Overview",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "sum(student_attendance_marked_total)"
+        }
+      ]
+    },
+    {
+      "title": "Daily Attendance Trend", 
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(student_attendance_marked_total[1d])"
+        }
+      ]
+    },
+    {
+      "title": "Response Times",
+      "type": "heatmap",
+      "targets": [
+        {
+          "expr": "rate(request_duration_seconds_bucket[5m])"
+        }
+      ]
+    },
+    {
+      "title": "Error Rates",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"5.*\"}[5m]))"
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+#### Run these queries in Prometheus to get the different metrics
+# Request count by endpoint
+http_requests_total
+
+# Request rate over 5m
+rate(http_requests_total[5m])
+
+# 95th percentile latency by endpoint
+histogram_quantile(0.95, rate(request_duration_seconds_bucket[5m]))
+
+# Total attendance records marked
+student_attendance_marked_total
+
+# Error rate
+rate(http_requests_total{status=~"5.*"}[5m])
+
+# Attendance rate by date
+sum(student_attendance_marked_total) by (date)
+
+# Daily present vs absent ratio
+sum(student_attendance_marked_total{status="Present"}) / sum(student_attendance_marked_total)
+
+# Student attendance trends
+rate(student_attendance_marked_total[7d])
+
+# Login activity correlation with attendance marking
+rate(http_requests_total{endpoint="/login"}[1h]) AND ON() rate(student_attendance_marked_total[1h])
+
+# Peak attendance marking times
+count_over_time(student_attendance_marked_total[1h]) @ end()
+
+# Most active users marking attendance
+topk(5, sum(student_attendance_marked_total) by (user))
+
+# Average response time for attendance operations
+rate(request_duration_seconds_sum{endpoint="/attendance"}[5m])
+/
+rate(request_duration_seconds_count{endpoint="/attendance"}[5m])
+
+# Error rate during attendance marking
+sum(rate(http_requests_total{endpoint="/attendance", status=~"5.*"}[5m]))

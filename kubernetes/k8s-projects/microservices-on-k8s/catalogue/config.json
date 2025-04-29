@@ -1,0 +1,8 @@
+{
+    "app_version": "1.0.0",
+    "data_source": "json",
+    "db_host": "catalogue-db",
+    "db_name": "catalogue",
+    "db_user": "devops",
+    "db_password": "devops"
+}

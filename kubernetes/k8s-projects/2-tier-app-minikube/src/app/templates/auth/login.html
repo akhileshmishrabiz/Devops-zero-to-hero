@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Login</h2>
+            <p class="mt-2 text-gray-600">Please log in to access this page.</p>
+        </div>
+
+        <form method="POST" class="space-y-6">
+            <div>
+                <label for="username" class="block text-lg font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" required
+                       class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-navy focus:border-navy">
+            </div>
+
+            <div>
+                <label for="password" class="block text-lg font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required
+                       class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-navy focus:border-navy">
+            </div>
+
+            <button type="submit" 
+                    class="w-full py-3 bg-navy text-white rounded-lg hover:bg-navy-light transition duration-200 text-lg">
+                Login
+            </button>
+        </form>
+
+        <p class="mt-6 text-center text-gray-600">
+            Don't have an account? 
+            <a href="{{ url_for('auth.register') }}" class="text-navy hover:text-navy-light font-medium">
+                Register
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}

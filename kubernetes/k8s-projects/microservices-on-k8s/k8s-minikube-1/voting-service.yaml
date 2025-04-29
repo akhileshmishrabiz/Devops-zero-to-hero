@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: voting-config
+data:
+  application.properties: |
+    # Catalogue Service Endpoint
+    catalogue.service-url=http://catalogue:5000/api/products
+
+    # H2
+    spring.h2.console.enabled=true
+    spring.h2.console.path=/h2-console
+
+    # Datasource
+    spring.datasource.url=jdbc:h2:mem:testdb
+    spring.datasource.driver-class-name=org.h2.Driver
+    spring.datasource.username=sa
+    spring.datasource.password=password
+
+    # JPA
+    spring.jpa.show-sql=true
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting-service
+  labels:
+    app: voting-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: voting-service
+  template:
+    metadata:
+      labels:
+        app: voting-service
+    spec:
+      containers:
+      - name: voting-service
+        image: my/craftista-voting:dev  # local image build
+        imagePullPolicy: Never # to use local image only
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/application.properties
+          subPath: application.properties
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/origamis
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /api/origamis
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: config-volume
+        configMap:
+          name: voting-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting
+spec:
+  selector:
+    app: voting-service
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: ClusterIP

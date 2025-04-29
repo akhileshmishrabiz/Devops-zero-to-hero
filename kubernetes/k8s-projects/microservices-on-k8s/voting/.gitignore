@@ -1,0 +1,93 @@
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nb-configuration.xml
+nbactions.xml
+
+### VS Code ###
+.vscode/
+
+### JPA Files ###
+META-INF/
+
+### Linux ###
+*~
+## KDE directory preferences
+.directory
+
+### Windows ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+### Mac ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+### JUnit
+test-output/
+junitreports/
+
+### JDK ###
+*.hprof
+*.class
+
+### VM ###
+*.vmcore
+*.vmdk
+*.vmem
+*.vmsd
+*.vmss
+*.vmtm
+
+### Logs ###
+*.log
+
+### Others ###
+*.pid
+*.ser
+*.lock
+*.bak
+*.off
+*.old
+*.dist
+*.rej
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*

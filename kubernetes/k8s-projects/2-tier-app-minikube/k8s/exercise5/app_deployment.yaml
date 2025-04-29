@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-portal
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # Maximum number of pods that can be created above desired replicas
+      maxUnavailable: 0  # Maximum number of pods that can be unavailable during update
+  selector:
+    matchLabels:
+      app: student-portal
+  template:
+    metadata:
+      labels:
+        app: student-portal
+    spec:
+      imagePullSecrets:
+      - name: aws-secret
+      containers:
+      - name: attendance-app
+        image: 366140438193.dkr.ecr.ap-south-1.amazonaws.com/student-portal:k8s1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_LINK
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_LINK
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-portal
+spec:
+  selector:
+    app: student-portal
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: NodePort

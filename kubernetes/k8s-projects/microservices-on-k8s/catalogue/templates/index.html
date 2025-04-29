@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Products API</title>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Craftista Logo" id="logo">
+        <h1>Welcome to the Craftista Products API</h1>
+    </header>
+    
+    <main>
+        <section id="content">
+          <p>This is a backend service to which Craftista Frontend Connects.</p>     
+          <p>You can access the following API endpoints:</p>
+          <ul>
+              <li><a href="/api/products">All Products</a></li>
+              <li><a href="/api/products/1">Product 1</a></li>
+              <!-- Add more links as per your API structure -->
+          </ul>
+        </section>
+
+
+	<aside id="system-info">
+          <h2>App Version</h2>		
+	  <div id="version-circle">{{ version }}</div>
+	  <h2>System Information</h2>
+            <p><strong>Hostname:</strong> {{ system_info.hostname }}</p>
+            <p><strong>IP Address:</strong> {{ system_info.ip_address }}</p>
+            <p><strong>Running in Container:</strong> {{ "Yes" if system_info.is_container else "No" }}</p>
+            <p><strong>Running in Kubernetes:</strong> {{ "Yes" if system_info.is_kubernetes else "No" }}</p>
+        </aside>
+
+    </main>
+    
+    <footer>
+        <p>Sample App created by School of Devops for DevOps Workshops.</p>
+	<p>&copy; {{ current_year }} Initcron Systems Private Limited</p>
+    </footer>
+</body>
+</html>

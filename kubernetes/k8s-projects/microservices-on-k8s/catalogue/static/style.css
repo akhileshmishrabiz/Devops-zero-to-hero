@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    flex-grow: 1; /* Takes up the remaining vertical space, pushing the footer down */
+}
+
+#content {
+    flex-grow: 2;
+    padding: 10px;
+}
+
+#system-info {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: #f8f8f8;
+}
+
+header, footer {
+    background-color: #4CAF50; /* Example color */
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+footer {
+    margin-top: auto; /* Pushes the footer down */
+}
+
+#logo {
+    height: 100px;  /* or the size you prefer */
+    width: auto; /* maintain aspect ratio */
+    margin-right: 10px;
+    float: left; /* align to the left */
+}
+
+#version-circle {
+    background-color: green;
+    color: white;
+    border-radius: 50%; /* Make it a circle */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Space between version and system info */
+}

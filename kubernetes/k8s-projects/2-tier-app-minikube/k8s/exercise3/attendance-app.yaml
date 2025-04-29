@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendance-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: attendance-app
+  template:
+    metadata:
+      labels:
+        app: attendance-app
+    spec:
+      imagePullSecrets:
+      - name: aws-secret
+      containers:
+      - name: attendance-app
+        image: 366140438193.dkr.ecr.ap-south-1.amazonaws.com/student-portal:k8s1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_LINK
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_LINK
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attendance-app
+spec:
+  selector:
+    app: attendance-app
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: NodePort

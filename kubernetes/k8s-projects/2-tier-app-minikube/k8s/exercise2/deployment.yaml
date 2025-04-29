@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      imagePullSecrets:
+      - name: aws-secret
+      containers:
+      - name: flask-app
+        image: 366140438193.dkr.ecr.ap-south-1.amazonaws.com/student-portal:k8s1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_LINK
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_LINK

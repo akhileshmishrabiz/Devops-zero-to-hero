@@ -1,0 +1,55 @@
+## Simple deployment with local Docker image and docker container
+
+# Install minikube on github codespace using the link
+Use this to install minikube on github codespaces
+https://github.com/akhileshmishrabiz/Devops-zero-to-hero/blob/main/kubernetes/minikube-setup.md
+
+# Start Minikube
+minikube start
+
+
+# Export database connection string
+# export DB_LINK="postgresql://postgres:Aditya_121990@minikube-postgres-db.cfykukwcw419.ap-south-1.rds.amazonaws.com:5432/postgres"
+## link -> env DB_LINK -> postgresql://{dbuser}:{userpassword}@{host}:{port}/{dbname}
+
+# Build and load Docker image
+cd src
+docker build -t attendance-app .
+minikube image load attendance-app
+
+# Go to k8s folder
+cd student-portal/k8s
+
+# Create base64 encoded secret
+echo -n $DB_LINK | base64
+
+echo -n $DB_LINK | base64  > db.secret
+
+# Add the db-secret value in secret.yaml -> here DB_LINK: <base64-encoded-db-link>
+
+# Apply Kubernetes manifests
+kubectl apply -f secret.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+# Access the app
+minikube service flask-app
+minikube service flask-app --url
+
+# or use the port forwarding 
+kubectl port-forward service/flask-app 8080:80
+-> The app should be accessible at http://localhost:8080 or the Codespaces URL.
+
+
+
+# Monitor deployment:
+kubectl get pods
+kubectl get services
+kubectl logs -f <pod-name>
+
+# Troubleshooting secret as env
+# Exec into pod to check environment variables
+kubectl exec -it $(kubectl get pod -l app=flask-app -o jsonpath='{.items[0].metadata.name}') -- env | grep DB_LINK
+
+# Or print logs to see if app reads secret
+kubectl logs $(kubectl get pod -l app=flask-app -o jsonpath='{.items[0].metadata.name}')

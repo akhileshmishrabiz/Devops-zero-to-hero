@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-lg p-8">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Student Management</h2>
+        <button onclick="document.getElementById('addStudentModal').style.display='block'"
+                class="bg-navy hover:bg-navy-light text-white font-semibold px-6 py-3 rounded-lg transition duration-200">
+            Add New Student
+        </button>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-4 text-left text-lg font-semibold text-gray-700">ID</th>
+                    <th class="px-6 py-4 text-left text-lg font-semibold text-gray-700">Name</th>
+                    <th class="px-6 py-4 text-left text-lg font-semibold text-gray-700">Attendance Rate</th>
+                    <th class="px-6 py-4 text-left text-lg font-semibold text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for student in students %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 text-gray-900">{{ student.id }}</td>
+                    <td class="px-6 py-4 text-gray-900 font-medium">{{ student.name }}</td>
+                    <td class="px-6 py-4 text-gray-900">{{ student.attendance_rate }}%</td>
+                    <td class="px-6 py-4">
+                        <div class="flex space-x-3">
+                            <button onclick="editStudent({{ student.id }})"
+                                    class="text-navy hover:bg-navy hover:text-white px-4 py-2 rounded-md">
+                                Edit
+                            </button>
+                            <button onclick="deleteStudent({{ student.id }})"
+                                    class="text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-md">
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Student Modal -->
+<div id="addStudentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-lg p-8 w-full max-w-md">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-gray-900">Add New Student</h3>
+            <button onclick="document.getElementById('addStudentModal').style.display='none'"
+                    class="text-gray-400 hover:text-gray-500 text-2xl">&times;</button>
+        </div>
+        
+        <form action="{{ url_for('main.add_student') }}" method="POST" class="space-y-6">
+            <div>
+                <label for="name" class="block text-lg font-medium text-gray-700">Student Name</label>
+                <input type="text" id="name" name="name" required
+                       class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-navy focus:border-navy">
+            </div>
+            
+            <button type="submit" 
+                    class="w-full py-3 bg-navy text-white rounded-lg hover:bg-navy-light transition duration-200">
+                Add Student
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

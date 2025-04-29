@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Daily Attendance{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-8">
+    <h2 class="text-4xl font-normal mb-8">Daily Attendance</h2>
+
+    <div class="bg-white rounded-lg shadow-sm p-8">
+        <form action="{{ url_for('main.attendance') }}" method="GET" class="mb-8 flex items-center gap-4">
+            <input type="date" name="date" value="{{ selected_date }}" 
+                   class="px-4 py-2 border border-gray-300 rounded-lg text-xl"
+                   onchange="this.form.submit()">
+        </form>
+
+        <form action="{{ url_for('main.mark_attendance') }}" method="POST">
+            <input type="hidden" name="date" value="{{ selected_date }}">
+            
+            <div class="mb-8">
+                <div class="grid grid-cols-3 text-2xl font-normal mb-4">
+                    <div>Student Name</div>
+                    <div>Status</div>
+                    <div>Mark</div>
+                </div>
+
+                {% for student in students %}
+                <div class="grid grid-cols-3 py-3 border-t border-gray-200 items-center">
+                    <div class="text-xl">{{ student.name }}</div>
+                    <div class="text-xl">
+                        {% if student.today_attendance %}
+                            <span class="{% if student.today_attendance.status == 'Present' %}text-green-600{% else %}text-red-600{% endif %}">
+                                {{ student.today_attendance.status }}
+                            </span>
+                        {% else %}
+                            <span class="text-gray-500">Not Marked</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <select name="status_{{ student.id }}" 
+                                class="px-4 py-2 border border-gray-300 rounded-lg text-lg">
+                            <option value="">Select Status</option>
+                            <option value="Present">Present</option>
+                            <option value="Absent">Absent</option>
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="text-xl bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                Save Attendance
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

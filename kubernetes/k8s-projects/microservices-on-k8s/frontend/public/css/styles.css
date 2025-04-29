@@ -1,0 +1,139 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+header {
+    background-color: #f0f4f5;
+    padding: 20px;
+    text-align: center;
+}
+
+.logo {
+    width: 120px;
+    float: left;
+}
+
+header h1 {
+    color: #333;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+#products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+#daily-origami {
+    width: 100%;
+    margin-top: 20px; /* Adjust as needed */
+    text-align: center;
+}
+
+
+.product img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center; 
+    flex-basis: calc(25% - 2rem);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.product:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.version-circle {
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.system-info {
+    padding: 30px;	
+    flex: 1;
+}
+
+footer {
+    background-color: #e5e5e5;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .products,
+    .system-info {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+
+
+.status-section {
+  margin: 20px 0;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.status-box {
+  padding: 10px;
+  text-align: center;
+}
+
+.status-box.up {
+  background-color: green;
+  color: white;
+}
+
+.status-box.down {
+  background-color: red;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+.read-more {
+  color: blue;
+  cursor: pointer;
+}
+

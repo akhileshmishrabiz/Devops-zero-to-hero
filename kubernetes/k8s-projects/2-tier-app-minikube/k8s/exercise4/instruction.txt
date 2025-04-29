@@ -1,0 +1,151 @@
+## Configure openlease for minikube
+
+# install openlease (for your respective os)
+
+
+########################################################
+########## Kubernetes demo #################################
+########################################################
+# Enable Metrics (for full monitoring capabilities):
+minikube start --addons metrics-server
+kubectl get pods -n kube-system | grep metrics-server
+
+# create secret to hold db details
+kubectl create secret generic db-secret --from-literal=DB_LINK="postgresql://postgres:admin12345@minikube-postgres-db.cfykukwcw419.ap-south-1.rds.amazonaws.com:5432/postgres"
+
+# create secrets for ecr access
+kubectl create secret docker-registry aws-secret \
+  --docker-server=366140438193.dkr.ecr.ap-south-1.amazonaws.com \
+  --docker-username=AWS \
+  --docker-password="$(aws ecr get-login-password --region ap-south-1)" 
+########## Rolling Upgrade demo ########################
+
+# create deployment
+kubectl apply -f app_deployment.yaml
+
+# Access services
+
+# Port forward attendance app
+kubectl port-forward svc/attendance-app 8000:8000
+
+# update image
+kubectl set image deployment/attendance-app attendance-app=366140438193.dkr.ecr.ap-south-1.amazonaws.com/student-portal:k8s2
+
+# Or apply an updated YAML file(app_deployment.yaml)
+kubectl apply -f app_deployment.yaml
+
+# check status of deployment
+kubectl rollout status deployment/attendance-app
+
+# check deployments
+kubectl get deployment
+
+# undo deployment (rollback)
+kubectl rollout undo deployment/attendance-app
+
+# check history of deployments
+kubectl rollout history deployment/attendance-app
+
+# check logs
+kubectl logs -l app=attendance-app
+
+# check events
+kubectl get events
+
+# check pods
+kubectl get pods
+
+# check services
+kubectl get svc -o wide
+
+########## Scaling demo #################################
+
+# Scale up to 3 replicas
+kubectl scale deployment attendance-app --replicas=3
+
+# check pods
+kubectl get pods
+
+# Scale down to 1 replica
+kubectl scale deployment attendance-app --replicas=1
+
+# check pods
+kubectl get pods
+
+########## HPA demo #####################################
+
+# create hpa
+kubectl autoscale deployment attendance-app --min=1 --max=3 --cpu-percent=80
+
+# or with yaml file
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: attendance-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: attendance-app
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+kubectl apply -f hpa.yaml
+
+# check hpa
+kubectl get hpa
+
+########################################################
+########## ArgoCD demo #################################
+########################################################
+
+# Create namespace
+kubectl create namespace argocd
+
+# Install ArgoCD
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Get the ArgoCD admin password
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# If you get error in getting password, then use below command
+
+#### First, create a new password and encode it ####
+NEW_PASSWORD=$(openssl rand -base64 15)
+BCRYPT_HASH=$(htpasswd -bnBC 10 "" $NEW_PASSWORD | tr -d ':\n' | sed 's/$2y/$2a/')
+
+# Update the argocd-secret with the new password
+kubectl -n argocd patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "'$BCRYPT_HASH'",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+  }}'
+
+kubectl -n argocd get secret argocd-secret -o jsonpath="{.data.password}" | base64 -d
+
+# Print your new password
+echo "Your ArgoCD password is: $NEW_PASSWORD"
+#### End of new password ####
+
+# Port forward ArgoCD UI
+kubectl port-forward svc/argocd-server -n argocd 8080:80
+
+# Login to ArgoCD
+argocd login localhost:8080
+
+# apply argocd app
+kubectl apply -f argocd-app.yaml
+
+# check argocd app
+kubectl get applications -n argocd
+
+

@@ -1,0 +1,49 @@
+<!-- Example, replicate the same HTML structure as your Flask app -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Recommendation Engine</title>
+</head>
+<body>
+    <header>
+        <img src="/static/images/logo.png" alt="Craftista">
+        <h1>Welcome to Daily Origami Recommendation Service</h1>
+    </header>
+    <!-- Add the same components as your Flask app -->
+    <!-- ... -->
+
+    <main>
+        <section id="content">
+          <p>This is a backend service to which Craftista Frontend Connects to fetch a random Origami.</p>
+          <p>You can access the following API endpoint:</p>
+          <ul>
+              <li><a href="/api/origami-of-the-day">Origami of the Day</a></li>
+              <li><a href="/api/recommendation-status">Service Status</a></li>
+	      <!-- Add more links as per your API structure -->
+          </ul>
+        </section>
+
+
+	<aside id="system-info">
+          <h2>App Version</h2>
+	  <div id="version-circle">{{.Version}}</div>
+	  <h2>System Information</h2>
+            <p><strong>Hostname:</strong> {{.SystemInfo.Hostname}}}</p>
+            <p><strong>IP Address:</strong> {{.SystemInfo.IPAddress}}}</p>
+	    <p><strong>Running in Container:</strong> {{if .SystemInfo.IsContainer}}Yes{{else}}No{{end}}</p>
+	    <p><strong>Running in Kubernetes:</strong> {{if .SystemInfo.IsKubernetes}}Yes{{else}}No{{end}}</p>
+        </aside>
+
+    </main>
+
+
+
+    <footer>
+        <p>&copy; {{.Year}} Initcron Systems Private Limited</p>
+    </footer>
+</body>
+</html>
+

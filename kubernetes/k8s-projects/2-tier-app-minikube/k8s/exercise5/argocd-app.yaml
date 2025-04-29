@@ -1,0 +1,27 @@
+# argocd-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-portal
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/akhileshmishrabiz/student-portal.git
+    targetRevision: HEAD
+    path: k8s/exercise5/  # Directory containing your K8s manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
+
+
+
+
+    

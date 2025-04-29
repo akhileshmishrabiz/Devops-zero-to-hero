@@ -1,0 +1,120 @@
+/* Custom Properties */
+:root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --danger: #e74c3c;
+    --success: #2ecc71;
+    --transition: all 0.3s ease;
+  }
+  
+  /* Custom Animations */
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Mobile Menu Styles */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 50;
+  }
+  
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: white;
+    transition: var(--transition);
+  }
+  
+  /* Mobile Menu Animation */
+  .hamburger.active span:first-child {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:last-child {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  /* Mobile Navigation */
+  @media (max-width: 768px) {
+    .hamburger {
+      display: flex;
+    }
+  
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 250px;
+      height: 100vh;
+      background-color: var(--primary);
+      padding: 1rem;
+      transition: var(--transition);
+      z-index: 40;
+    }
+  
+    .mobile-menu.active {
+      right: 0;
+    }
+  
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 30;
+    }
+  
+    .mobile-overlay.active {
+      display: block;
+    }
+  }
+  
+  /* Custom Modal Animation */
+  .modal {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  /* Custom Scrollbar */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 3px;
+  }
+  
+  /* Utility classes for animations */
+  .fade-in {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .slide-in {
+    animation: slideIn 0.3s ease;
+  }

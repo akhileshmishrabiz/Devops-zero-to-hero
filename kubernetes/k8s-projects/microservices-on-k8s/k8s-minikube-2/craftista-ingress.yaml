@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: craftista-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Optional: if you need sticky sessions for your app
+    # nginx.ingress.kubernetes.io/affinity: "cookie"
+spec:
+  rules:
+  - host: craftista.local  # We'll map this in /etc/hosts
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+      - path: /api/products
+        pathType: Prefix
+        backend:
+          service:
+            name: catalogue
+            port:
+              number: 5000
+      - path: /api/origami-of-the-day
+        pathType: Prefix
+        backend:
+          service:
+            name: recco
+            port:
+              number: 8080
+      - path: /api/origamis
+        pathType: Prefix
+        backend:
+          service:
+            name: voting
+            port:
+              number: 8080
