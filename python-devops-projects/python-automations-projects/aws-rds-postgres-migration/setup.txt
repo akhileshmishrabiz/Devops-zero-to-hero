@@ -1,0 +1,50 @@
+# To install the AWS CLI on a Linux machine, follow these steps
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+
+# To create 3 postgres databases with aws cli 
+aws rds create-db-instance \
+    --db-instance-identifier mydbinstance-1 \
+    --db-instance-class db.t3.micro \
+    --engine postgres \
+    --allocated-storage 50 \
+    --master-username mymasteruser \
+    --master-user-password mypassword \
+    --backup-retention-period 7
+
+aws rds create-db-instance \
+    --db-instance-identifier mydbinstance-2 \
+    --db-instance-class db.t3.micro \
+    --engine postgres \
+    --allocated-storage 70 \
+    --master-username mymasteruser \
+    --master-user-password mypassword \
+    --backup-retention-period 7
+
+
+aws rds create-db-instance \
+    --db-instance-identifier mydbinstance-3 \
+    --db-instance-class db.t3.micro \
+    --engine postgres \
+    --allocated-storage 60 \
+    --master-username mymasteruser \
+    --master-user-password mypassword \
+    --backup-retention-period 7
+
+
+# Cleanup 
+
+aws rds delete-db-instance \
+    --db-instance-identifier mydbinstance-1 \
+    --skip-final-snapshot
+
+aws rds delete-db-instance \
+    --db-instance-identifier mydbinstance-2 \
+    --skip-final-snapshot
+
+aws rds delete-db-instance \
+    --db-instance-identifier mydbinstance-3 \
+    --skip-final-snapshot

@@ -1,0 +1,10 @@
+{
+    "postgres": {
+      "host": "postgres-db.csskasdcw326.eu-west-2.rds.amazonaws.com",
+      "port": 5432,
+      "database": "mydb",
+      "user": "postgres_user",
+      "password": "admin1234",
+      "db_table": "flaskAppTable"
+    }
+  }
