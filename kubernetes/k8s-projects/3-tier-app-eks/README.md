@@ -1,7 +1,3 @@
-Certainly! Based on the detailed guide from Living DevOps on deploying a production-ready 3-tier application on AWS EKS, here's a comprehensive `README.md` for your GitHub repository:
-
----
-
 # Production-Ready 3-Tier Application on AWS EKS
 
 This project demonstrates the deployment of a production-ready 3-tier application on Amazon Elastic Kubernetes Service (EKS). The architecture comprises:
