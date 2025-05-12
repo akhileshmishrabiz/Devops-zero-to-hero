@@ -4,7 +4,7 @@ This project demonstrates the deployment of a production-ready 3-tier applicatio
 
 * **Frontend**: React application
 * **Backend**: Flask API
-* **Database**: PostgreSQL hosted on Amazon RDS([Medium][1])
+* **Database**: PostgreSQL hosted on Amazon RDS([meduim](https://towardsaws.com/stop-following-useless-tutorials-learn-kubernetes-on-aws-like-a-pro-1186aa8a33ac))
 
 The setup includes Kubernetes manifests for deploying the application components, configuring services, secrets, config maps, ingress, and integrating with AWS resources like RDS and Route 53.
 
