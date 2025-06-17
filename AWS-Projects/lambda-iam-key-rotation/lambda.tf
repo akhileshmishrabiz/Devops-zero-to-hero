@@ -70,6 +70,13 @@ resource "aws_lambda_function" "my_lambda_function" {
     # Use the Archive data source to zip the code
     filename         = data.archive_file.lambda_zip.output_path
     source_code_hash = data.archive_file.lambda_zip.output_base64sha256
+    environment {
+      variables = {
+        "to_email" = "aditiyamishranit@gmail.com"
+        "from_email" = "akhileshmishra121990@gmail.com"
+        "Expiry_days" = 20
+      }
+    }   
 }
 
 
