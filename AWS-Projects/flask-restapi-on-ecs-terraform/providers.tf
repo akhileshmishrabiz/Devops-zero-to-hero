@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.9.2"
+  required_version = "~>1.9"
 
   required_providers {
     aws = {
@@ -11,7 +11,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-south-1"
+  region = var.region
 }
 
 # remote backend
