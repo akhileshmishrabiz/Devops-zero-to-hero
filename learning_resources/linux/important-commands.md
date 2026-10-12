@@ -1,6 +1,0 @@
-watch 
-
-systemctl
-
-service
-

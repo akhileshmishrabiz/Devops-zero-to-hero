@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+spec:
+  replicas: 12
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "payment"
+          effect: "NoSchedule"
+      containers:
+        - name: web
+          image: nginx:1.27

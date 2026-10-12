@@ -1,0 +1,244 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payment-demo
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-app
+  namespace: payment-demo
+data:
+  app.py: |
+    import json
+    import logging
+    import os
+    import socket
+    import time
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    started_at = time.monotonic()
+    warmup_seconds = int(os.getenv("WARMUP_SECONDS", "90"))
+    pod_name = os.getenv("POD_NAME", socket.gethostname())
+    pod_ip = os.getenv("POD_IP", "unknown")
+
+    def initialized():
+        return time.monotonic() - started_at >= warmup_seconds
+
+    class Handler(BaseHTTPRequestHandler):
+        protocol_version = "HTTP/1.1"
+
+        def send_json(self, status, payload):
+            body = json.dumps(payload).encode()
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("X-Pod-Name", pod_name)
+            self.send_header("X-Pod-IP", pod_ip)
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_GET(self):
+            ready = initialized()
+            age = round(time.monotonic() - started_at, 1)
+
+            if self.path == "/healthz":
+                status = 200
+                payload = {"alive": True, "pod": pod_name, "podIP": pod_ip}
+            elif self.path in ("/readyz", "/startupz"):
+                status = 200 if ready else 503
+                payload = {
+                    "dependenciesInitialized": ready,
+                    "ageSeconds": age,
+                    "warmupSeconds": warmup_seconds,
+                    "pod": pod_name,
+                    "podIP": pod_ip,
+                }
+            elif self.path == "/payments":
+                status = 200 if ready else 503
+                payload = {
+                    "result": "payment accepted" if ready else "connection pool initializing",
+                    "ageSeconds": age,
+                    "pod": pod_name,
+                    "podIP": pod_ip,
+                }
+            else:
+                status = 404
+                payload = {"error": "not found"}
+
+            logging.info(
+                "path=%s status=%s pod=%s pod_ip=%s age_seconds=%s initialized=%s",
+                self.path, status, pod_name, pod_ip, age, ready
+            )
+            self.send_json(status, payload)
+
+        def log_message(self, *_):
+            pass
+
+    logging.info(
+        "event=starting pod=%s pod_ip=%s warmup_seconds=%s",
+        pod_name, pod_ip, warmup_seconds
+    )
+    ThreadingHTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+
+  load_test.py: |
+    import argparse
+    import collections
+    import http.client
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--requests", type=int, default=50)
+    parser.add_argument("--mode", choices=["new", "keepalive", "mixed"], default="new")
+    parser.add_argument(
+        "--new-requests",
+        type=int,
+        default=4,
+        help="fresh connections used in mixed mode",
+    )
+    args = parser.parse_args()
+
+    statuses = collections.Counter()
+    backends = collections.Counter()
+
+    def make_connection():
+        return http.client.HTTPConnection("payment", 80, timeout=5)
+
+    def send_request(connection, record=True):
+        connection.request("GET", "/payments")
+        response = connection.getresponse()
+        response.read()
+        pod = response.getheader("X-Pod-Name", "unknown")
+        if record:
+            statuses[response.status] += 1
+            backends[pod] += 1
+        return response.status, pod
+
+    if args.mode == "new":
+        for _ in range(args.requests):
+            connection = make_connection()
+            send_request(connection)
+            connection.close()
+
+    elif args.mode == "keepalive":
+        connection = make_connection()
+        for _ in range(args.requests):
+            send_request(connection)
+        connection.close()
+
+    else:
+        if not 0 <= args.new_requests <= args.requests:
+            parser.error("--new-requests must be between 0 and --requests")
+
+        # Model an existing connection pool that was established against healthy
+        # pods before a new, prematurely Ready pod entered the Service.
+        healthy_connection = None
+        for _ in range(20):
+            candidate = make_connection()
+            status, _ = send_request(candidate, record=False)
+            if status == 200:
+                healthy_connection = candidate
+                break
+            candidate.close()
+
+        if healthy_connection is None:
+            raise RuntimeError("could not establish a healthy persistent connection")
+
+        reused_requests = args.requests - args.new_requests
+        for _ in range(reused_requests):
+            send_request(healthy_connection)
+        healthy_connection.close()
+
+        for _ in range(args.new_requests):
+            connection = make_connection()
+            send_request(connection)
+            connection.close()
+
+    print("mode:", args.mode)
+    print("status counts:", dict(statuses))
+    print("requests by backend:", dict(backends))
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: payment-demo
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+        - name: payment
+          image: python:3.12-alpine
+          imagePullPolicy: IfNotPresent
+          command: ["python", "-u", "/app/app.py"]
+          env:
+            - name: WARMUP_SECONDS
+              value: "90"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: app
+              mountPath: /app
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: app
+          configMap:
+            name: payment-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  namespace: payment-demo
+spec:
+  selector:
+    app: payment
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-client
+  namespace: payment-demo
+spec:
+  containers:
+    - name: client
+      image: python:3.12-alpine
+      command: ["sleep", "infinity"]
+      volumeMounts:
+        - name: app
+          mountPath: /app
+  volumes:
+    - name: app
+      configMap:
+        name: payment-app
